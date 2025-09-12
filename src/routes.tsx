@@ -2,7 +2,7 @@ import AdminLayout from "@/components/layout/AdminLayout";
 import Layout from "@/components/layout/Layout";
 import type { RouteObject } from "react-router-dom";
 import Login from "@/pages/Login";
-import ControlPanel from "@/pages/admin/ControlPanel";
+import ControlPanel from "@/pages/ControlPanel";
 import ParkingStateReport from "@/pages/admin/ParkingStateReport";
 import Gates from "@/pages/Gates";
 import Checkpoint from "@/pages/Checkpoint";

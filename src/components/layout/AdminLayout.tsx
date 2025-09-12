@@ -1,4 +1,4 @@
-import withAdminGuard from '@/HOC/withAdminGuard';
+import withAdminGuard from '@/HOC/withLoggedIn';
 import { Outlet } from 'react-router-dom';
 import Menu from './Menu';
 import Sidebar from './Sidebar';

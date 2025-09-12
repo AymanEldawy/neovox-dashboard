@@ -17,7 +17,7 @@ const getAuthHeaders = () => {
   return defaultHeaders;
 };
 
-const apiFetch = async (endpoint: string, options: RequestInit = {}) => {
+export const apiFetch = async (endpoint: string, options: RequestInit = {}) => {
   const response = await fetch(`${HTTP_BASE}${endpoint}`, {
     ...options,
     headers: getAuthHeaders(),

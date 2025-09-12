@@ -1,8 +1,8 @@
+import withLoggedOut from '@/HOC/withLoggedOut';
 import { Outlet } from 'react-router-dom';
 import Menu from './Menu';
-import { withUserGuard } from '@/HOC/withUserGuard';
 
-const Layout = withUserGuard(() => {
+const Layout = withLoggedOut(() => {
   return (
     <>
       <Menu />
