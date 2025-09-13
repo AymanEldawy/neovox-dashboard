@@ -1,9 +1,10 @@
 import ErrorMessage from "@/components/shared/ErrorMessage";
+import { WEBSITE_NAME } from "@/data/constants";
 import { useAuthStore } from "@/store/authStore";
 import type { UserLoginType } from "@/types/user.type";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form"
-import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Login = () => {
@@ -18,8 +19,6 @@ const Login = () => {
     defaultValues: {
       username: "superadmin",
       password: "superpass"
-      // username: "emp1",
-      // password: "pass1"
     }
   });
 
@@ -44,8 +43,8 @@ const Login = () => {
     <main className="flex flex-1 items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 min-h-screen">
       <div className="w-full max-w-md space-y-8">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-[var(--text-primary)]">Welcome to ParkSmart</h2>
-          <p className="mt-2 text-center text-sm text-[var(--text-secondary)]">Sign in to manage your parking</p>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-[var(--text-primary)]">Welcome to {WEBSITE_NAME}</h2>
+          <p className="mt-2 text-center text-sm text-[var(--text-secondary)]">Sign in to manage your control panel</p>
         </div>
         <div className="rounded-xl bg-white p-8 shadow-lg">
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)} name="login-form">
@@ -79,6 +78,7 @@ const Login = () => {
               </button>
             </div>
           </form>
+          <Link to="/forget-password" className="text-center block w-full mt-6 hover:!underline">Forget password</Link>
         </div>
       </div>
     </main>

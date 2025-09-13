@@ -1,12 +1,18 @@
-import withLoggedOut from '@/HOC/withLoggedOut';
+import withLoggedIn from '@/HOC/withLoggedIn';
+import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import Menu from './Menu';
+import Menu from './header/Menu';
+import Sidebar from './Sidebar';
 
-const Layout = withLoggedOut(() => {
+const Layout = withLoggedIn(() => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <>
-      <Menu />
-      <Outlet />
+      <Menu withoutContainer setSidebarOpen={setSidebarOpen} hideLinks />
+      <div className='flex'>
+        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+        <main className="flex-1 p-4 md:w-[calc(100%-200px)] overflow-y-auto"><Outlet /></main>
+      </div>
     </>
   )
 })

@@ -5,7 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import "./i18n";
 import './index.css';
-import routes from './routes.tsx';
+import routes from './routes/routes.tsx';
 
 const router = createBrowserRouter(routes);
 const queryClient = new QueryClient();

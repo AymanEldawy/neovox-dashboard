@@ -1,6 +1,6 @@
-import { AuthService } from '@/services/api';
-import type { UserLoginType, AuthStoreType } from '@/types/user.type';
-import { create } from 'zustand'
+import { login } from '@/services/authService';
+import type { AuthStoreType, UserLoginType } from '@/types/user.type';
+import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 export const useAuthStore = create<AuthStoreType>()(
@@ -11,7 +11,7 @@ export const useAuthStore = create<AuthStoreType>()(
       loading: false,
       error: null,
       login: async (user: UserLoginType) => {
-        const data = await AuthService.login(user);
+        const data = await login(user);
         if (data.status !== 'error')          
           set({ user: data.user, token: data.token });
         return data
