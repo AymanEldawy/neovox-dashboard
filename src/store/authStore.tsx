@@ -1,3 +1,4 @@
+import { USER_STORE_KEY } from '@/data/constants';
 import { login } from '@/services/authService';
 import type { AuthStoreType, UserLoginType } from '@/types/user.type';
 import { create } from 'zustand';
@@ -21,7 +22,7 @@ export const useAuthStore = create<AuthStoreType>()(
       },
     }),
     {
-      name: 'PARKING_USER_KEY',
+      name: USER_STORE_KEY,
       partialize(state) {
         const { user, token } = state;
         return { user, token };

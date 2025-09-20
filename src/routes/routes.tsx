@@ -8,6 +8,16 @@ import NotFound from "../pages/NotFound";
 const ForgetPassword = lazy(() => import("../pages/auth/ForgetPassword"))
 const Login = lazy(() => import("../pages/auth/Login"))
 const Dashboard = lazy(() => import("../pages/Dashboard"))
+const Badges = lazy(() => import("../pages/Badges"));
+const DailyTasks = lazy(() => import("../pages/DailyTasks"));
+const InvestmentPlans = lazy(() => import("../pages/InvestmentPlans"));
+const Missions = lazy(() => import("../pages/Missions"));
+const Notifications = lazy(() => import("../pages/Notifications"));
+const PlanStates = lazy(() => import("../pages/PlanStates"));
+const Referrals = lazy(() => import("../pages/Referrals"));
+const UserBadges = lazy(() => import("../pages/UserBadges"));
+const UserMissions = lazy(() => import("../pages/UserMissions"));
+const Users = lazy(() => import("../pages/Users"));
 
 const routes: RouteObject[] = [
   {
@@ -16,6 +26,55 @@ const routes: RouteObject[] = [
       {
         index: true,
         element: <Dashboard />,
+      },
+      {
+        path: PATHS.BADGES,
+        children: [
+          {
+            index: true,
+            element: <Badges />,
+          },
+          {
+            path: PATHS.ADD_BADGE,
+            element: <Badges />,
+          },
+        ]
+      },
+      {
+        path: PATHS.DAILY_TASKS,
+        element: <DailyTasks />,
+      },
+      {
+        path: PATHS.INVESTMENT_PLANS,
+        element: <InvestmentPlans />,
+      },
+      {
+        path: PATHS.MISSIONS,
+        element: <Missions />,
+      },
+      {
+        path: PATHS.NOTIFICATIONS,
+        element: <Notifications />,
+      },
+      {
+        path: PATHS.PLAN_STATES,
+        element: <PlanStates />,
+      },
+      {
+        path: PATHS.REFERRALS,
+        element: <Referrals />,
+      },
+      {
+        path: PATHS.USER_BADGES,
+        element: <UserBadges />,
+      },
+      {
+        path: PATHS.USER_MISSIONS,
+        element: <UserMissions />,
+      },
+      {
+        path: PATHS.USERS,
+        element: <Users />,
       },
     ],
     element: <Layout />,

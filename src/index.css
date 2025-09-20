@@ -15,7 +15,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --primary-color: #ea2a33;
+  --primary-color: #211dfc;
   --secondary-color: #fef2f2;
   --background-color: #f6f6f6;
   --text-primary: #1a202c;
@@ -84,6 +84,7 @@ button:focus-visible {
 }
 
 @theme inline {
+  --primary: var(--primary-color);
   --primary-color: var(--primary-color);
   --secondary-color: var(--secondary-color);
   --background-color: var(--background-color);

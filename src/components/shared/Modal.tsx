@@ -8,7 +8,15 @@ const Modal = ({
   bodyClassName,
   open,
   isDrawer,
-}) => {
+} : {
+  open: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+  containerClassName?: string;
+  bodyClassName?: string;
+  isDrawer?: boolean;
+}
+) => {
   let classes = `max-w-[85%] rounded-md p-4 min-w-[250px] max-h-[90vh] overflow-auto`;
   if (isDrawer) {
     classes = `p-4 overflow-auto h-screen min-w-[250px] ltr:ml-auto rtl:mr-auto`;

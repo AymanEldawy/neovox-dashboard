@@ -1,4 +1,3 @@
-import { EyeIcon, EyeSlashIcon } from "@/components/Icons";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { RHFInput } from ".";
@@ -53,7 +52,8 @@ const RHFPasswordInput = ({
         className="right-2 top-[26px] absolute w-fit bg-transparent border-none outline-none"
         onClick={togglePasswordVisibilityHandler}
       >
-        {isPasswordVisible ? <EyeSlashIcon className="h-5 w-5" /> : <EyeIcon color="#878a99" className="h-5 w-5" />}
+        {/* {isPasswordVisible ? <EyeSlashIcon className="h-5 w-5" /> : <EyeIcon color="#878a99" className="h-5 w-5" />} */}
+        {/* {isPasswordVisible ? <EyeSlashIcon className="h-5 w-5" /> : <EyeIcon color="#878a99" className="h-5 w-5" />} */}
       </button>
     </div>
   );

@@ -1,6 +1,6 @@
 import { Controller, useFormContext } from "react-hook-form";
+import Select from "react-select";
 import { ErrorText } from "../../shared/ErrorText";
-import ReactSelectNormal from "../../shared/ReactSelectNormal";
 import { Label } from "./Label";
 
 type RHFSelectFieldProps = {
@@ -17,30 +17,23 @@ type RHFSelectFieldProps = {
   readOnly?: boolean;
   optionValue?: string;
   optionLabel?: string;
-  options?: { value: string | number; label: string }[];
+  options?: { id: string; name: string; }[];
 } & React.InputHTMLAttributes<HTMLSelectElement>;
 
 
 const RHFSelectField = ({
   containerClassName,
-  selectClassName,
   labelClassName,
-  isDarkMode,
-  selectProps,
-  styles,
   label,
   col,
-  small = true,
   hideErrors,
   readOnly,
   ...field
 }: RHFSelectFieldProps) => {
-  
+
   const { control } = useFormContext();
   const {
     name,
-    optionValue = "id",
-    optionLabel = "name",
     required,
     options,
     value: defaultValue,
@@ -51,7 +44,7 @@ const RHFSelectField = ({
       name={name!}
       control={control}
       defaultValue={null}
-      render={({ field: { onChange, ref, value }, fieldState: { error } }) => {
+      render={({ field: { onChange, value }, fieldState: { error } }) => {
         return (
           <div
             className={`w-full ${containerClassName} flex ${col ? "flex-col" : "flex-row items-center"
@@ -66,32 +59,26 @@ const RHFSelectField = ({
               />
             )}
             <div className="w-full relative">
-              <ReactSelectNormal
-                getOptionLabel={(option) => option?.[optionLabel]}
-                getOptionValue={(option) => option?.[optionValue]}
-                styles={styles}
-                error={error}
+              <Select
+                getOptionLabel={(option) => option?.id}
+                getOptionValue={(option) => option?.name}
                 defaultValue={
                   options &&
                   options?.find(
-                    (c) => c?.[optionValue] === (defaultValue || value)
+                    (c) => c?.id === (defaultValue || value)
                   )
                 }
                 value={
                   options &&
                   options?.find(
-                    (c) => c?.[optionValue] === (defaultValue || value)
+                    (c) => c?.id === (defaultValue || value)
                   )
                 }
                 options={options}
-                selectClassName={selectClassName}
-                isDarkMode={isDarkMode}
-                selectProps={selectProps}
-                small={small}
                 onChange={(option) => {
-                  onChange(option?.[optionValue]);
+                  onChange(option?.id);
                 }}
-                readOnly={readOnly}
+                isDisabled={readOnly}
               />
 
               {error && !hideErrors ? (

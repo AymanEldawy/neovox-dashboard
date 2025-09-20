@@ -1,7 +1,7 @@
 import SEARCH_PARAMS from "@/data/searchParamsKeys";
-import useCustomSearchParams from "@/hook/useCustomSearchParams";
-import { useLocalStorage } from "@/hook/useLocalStorageTables";
-import useUpdateSearchParams from "@/hook/useUpdateSearchParams";
+
+import useCustomSearchParams from "@/hooks/useCustomSearchParams";
+import useUpdateSearchParams from "@/hooks/useUpdateSearchParams";
 import {
   flexRender,
   getCoreRowModel,
@@ -10,30 +10,17 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import TableColumnVisibility from "./TableColumnVisibility";
 import TablePagination from "./TablePagination";
 import { TableResizeBar } from "./TableResizeBar";
 import { TableSkeleton } from "./TableSkeleton";
 
-let columnBeingDragged: number;
-
-type CustomTableProps =  {
+type CustomTableProps = {
   columns: any[];
   data: any[];
   isLoading: boolean;
-  rowSelection: any;
-  setRowSelection: (updater: any) => void;
   pageCount: number;
-  columnFilters: any[];
-  setColumnFilters: (updater: any) => void;
-  globalFilter: string;
-  setGlobalFilter: (updater: string) => void;
   meta?: any;
   name: string;
-  setOpenViability: (open: boolean) => void;
-  openViability: boolean;
   containerClassName?: string;
   tableClassName?: string;
   tableHeadClassName?: string;
@@ -42,85 +29,27 @@ type CustomTableProps =  {
   tdClassName?: string;
 }
 
-
-
 const CustomTable = ({
   columns,
   data,
   isLoading,
-  rowSelection,
-  setRowSelection,
   pageCount,
-  columnFilters,
-  setColumnFilters,
-  globalFilter,
-  setGlobalFilter,
   meta = {},
-  name,
-  setOpenViability,
-  openViability,
-} : CustomTableProps) => {
-  const { t } = useTranslation();
-  const { t: headers } = useTranslation("columnsHeaders");
+}: CustomTableProps) => {
   const updateSearchParams = useUpdateSearchParams();
   const limitSearchParam = useCustomSearchParams(SEARCH_PARAMS.LIMIT);
   const pageSearchParam = useCustomSearchParams(SEARCH_PARAMS.PAGE);
-  const { getTable, setTable } = useLocalStorage();
-  const [columnOrder, setColumnOrder] = useState([]);
-  const [columnVisibility, setColumnVisibility] = useState({});
-  const defaultColumn = useMemo(
-    () => ({
-      // Let's set up our default Filter UI
-      Filter: DefaultColumnFilter,
-    }),
-    []
-  );
-
-  const filterTypes = useMemo(
-    () => ({
-      text: (rows, id, filterValue) => {
-        return matchSorter(rows, filterValue, {
-          keys: [(row) => row.values[id]],
-        });
-      },
-      range: (rows, id, filterValue) => {
-        return rows.filter((row) => {
-          const rowValue = row.values[id];
-          return rowValue >= filterValue?.[0] && rowValue <= filterValue?.[1];
-        });
-      },
-    }),
-    []
-  );
-
-  useEffect(() => {
-    let col = getTable(name);
-    if (col) setColumnVisibility(col);
-  }, []);
-
-  useEffect(() => {
-    if (Object.keys(columnVisibility).length) setTable(name, columnVisibility);
-  }, [columnVisibility]);
 
   const table = useReactTable({
     columns,
     data,
-    defaultColumn,
-    filterTypes,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    onColumnFiltersChange: setColumnFilters,
-    onGlobalFilterChange: setGlobalFilter,
-    onColumnVisibilityChange: setColumnVisibility,
     enableRowSelection: true,
     enableFilters: true,
     manualFiltering: true,
-    onColumnOrderChange: setColumnOrder,
-    onRowSelectionChange: setRowSelection,
-    columnResizeMode: "onChange",
-    columnResizeDirection: "both",
     getRowId: (row) => {
       // if (!!outerSelectedId) return outerSelectedId(row, relativeIndex, parent);
       return row?.id;
@@ -152,13 +81,7 @@ const CustomTable = ({
     },
     manualPagination: true,
     pageCount,
-    autoResetPage: false,
     state: {
-      columnFilters,
-      globalFilter,
-      rowSelection,
-      columnOrder,
-      columnVisibility,
       pagination: {
         pageIndex: pageSearchParam - 1 || 0,
         pageSize: limitSearchParam || 10,
@@ -167,43 +90,22 @@ const CustomTable = ({
     meta: {
       ...meta,
     },
-    // }, useFilters, useSortBy);
   });
-
-  const onDragStart = (e) => {
-    columnBeingDragged = Number(e.currentTarget.dataset.columnIndex);
-  };
-
-  const onDrop = (e) => {
-    e.preventDefault();
-    const newPosition = Number(e.currentTarget.dataset.columnIndex);
-    const currentCols = table.getVisibleLeafColumns().map((c) => c.id);
-    const colToBeMoved = currentCols.splice(columnBeingDragged, 1);
-
-    currentCols.splice(newPosition, 0, colToBeMoved[0]);
-    table.setColumnOrder(currentCols);
-  };
 
   return (
     <>
-      <TableColumnVisibility
-        name={name}
-        open={openViability}
-        onClose={() => setOpenViability(false)}
-        table={table}
-      />
       <div className="w-full">
         <div
-          className={`relative overflow-x-auto w-full ${containerClassName}`}
+          className={`rounded-lg border border-primary/20 dark:border-primary/30 overflow-hidden bg-background-light dark:bg-background-dark`}
         >
           <table
-            className={`w-[${table.getTotalSize()}] w-full border-2 ${tableClassName}`}
-            // style={{ width: table.getTotalSize() }}
+            className={`w-[${table.getTotalSize()}] w-full border-`}
+          // style={{ width: table.getTotalSize() }}
           >
-            <thead className={`${tableHeadClassName} bg-gray-100 text-xs`}>
+            <thead >
               {table.getHeaderGroups().map((headerGroup) => {
                 return (
-                  <tr key={headerGroup.id}>
+                  <tr key={headerGroup.id} className="bg-primary/10 dark:bg-primary/20">
                     {headerGroup.headers.map((header) => {
                       const headerText = flexRender(
                         header.column.columnDef.header,
@@ -217,15 +119,11 @@ const CustomTable = ({
                             !table.getState().columnSizingInfo.isResizingColumn
                           }
                           data-column-index={header.index}
-                          onDragStart={onDragStart}
                           onDragOver={(e) => {
                             e.preventDefault();
                           }}
-                          onDrop={onDrop}
                           style={{ width: header.getSize() }}
-                          className={` text-gray-700 whitespace-nowrap px-2 py-1 border-2 font-medium capitalize relative  group border-b border-gray-200 p-1 cursor-move ${thClassName}
-                      
-                      `}
+                          className={`px-6 py-4 text-sm font-medium text-background-dark dark:text-background-light`}
                           onClick={() => {
                             if (header.column.getCanSort())
                               header.column.getToggleSortingHandler();
@@ -238,24 +136,23 @@ const CustomTable = ({
                               {header.isPlaceholder
                                 ? null
                                 : typeof headerText === "string"
-                                ? t(headerText)
-                                : flexRender(headerText, header.getContext())}
+                                  ? headerText
+                                  : flexRender(headerText, header.getContext())}
                             </span>
-
-                            {header?.column.getCanFilter() && (
-                              <>
-                                {header.isPlaceholder
-                                  ? null
-                                  : flexRender(
-                                      header.column.columnDef.Filter,
-                                      header.getContext()
-                                    )}
-                              </>
-                            )}
                           </div>
                           {header.column.getCanSort() && (
                             <span className="text-xs absolute ltr:right-2 top-1 inline-block invisible group-hover:visible cursor-pointer">
-                              <SortIcon className="w-4 h-4" />
+                              {/* <SortIcon className="w-4 h-4" /> */} {
+                                header.column.getIsSorted() === "asc" ? (
+                                  " 🔼"
+                                ) : header.column.getIsSorted() === "desc" ? (
+                                  " 🔽"
+                                ) : (
+                                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-3 h-3">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                                  </svg>
+                                )}
+
                             </span>
                           )}
                           <TableResizeBar header={header} />
@@ -266,7 +163,7 @@ const CustomTable = ({
                 );
               })}
             </thead>
-            <tbody className={`${tableBodyClassName}`}>
+            <tbody className={`divide-y divide-primary/20 dark:divide-primary/30`}>
               {isLoading ? (
                 <TableSkeleton columns={columns} />
               ) : (
@@ -282,7 +179,7 @@ const CustomTable = ({
                             return (
                               <td
                                 key={cell?.id}
-                                className={`w-[${cell.column.getSize()}] py-1 whitespace-nowrap border px-3 ${tdClassName}`}
+                                className={`w-[${cell.column.getSize()}] px-6 py-4 text-sm font-medium text-background-dark dark:text-background-light`}
                                 style={{ width: cell.column.getSize() }}
                               >
                                 {flexRender(
@@ -296,14 +193,12 @@ const CustomTable = ({
                       );
                     })
                   ) : (
-                    <tr className="text-red-500 h-28 bg-[#f1f1f1e8] p-1 rounded-sm mt-2">
+                    <tr className="text-red-500 h-28 bg-white p-1 rounded-sm mt-2 capitalize font-medium">
                       <td
-                        colSpan={columns?.length || 5}
-                        className="ltr:text-left rtl:text-right relative py-1"
+                        colSpan={columns?.length}
+                        className="text-center relative py-1"
                       >
-                        <span className="sticky left-1/2 -translate-x-1/2">
-                          {t("empty_result")}
-                        </span>
+                        there is no data to display
                       </td>
                     </tr>
                   )}
