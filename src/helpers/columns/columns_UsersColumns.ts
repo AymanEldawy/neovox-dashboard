@@ -3,9 +3,9 @@ import { createColumnHelper } from '@tanstack/react-table';
 const columnHelper = createColumnHelper();
 
 export const userColumns = [
-  columnHelper.accessor('id', {
-    header: 'ID',
-    cell: info => info.getValue(),
+  columnHelper.accessor('username', {
+    header: 'username',
+    cell: info => info.getValue() || '@user',
     
 
   }),
@@ -14,19 +14,15 @@ export const userColumns = [
     cell: info => info.getValue(),
   }),
   columnHelper.accessor('firstName', {
-    header: 'First Name',
+    header: 'Name',
     cell: info => info.getValue(),
   }),
-  columnHelper.accessor('lastName', {
-    header: 'Last Name',
-    cell: info => info.getValue(),
+  columnHelper.accessor('availableBalance', {
+    header: 'Total Balance',
+    cell: info => info.getValue() || 0,
   }),
-  columnHelper.accessor('role', {
-    header: 'Role',
-    cell: info => info.getValue() || 'N/A',
-  }),
-  columnHelper.accessor('createdAt', {
-    header: 'Created At',
-    cell: info => info.getValue() ? new Date(info.getValue()).toLocaleDateString() : 'N/A',
-  }),
+  columnHelper.accessor('totalEarnings', {
+    header: 'Total Earning',
+    cell: info => info.getValue() || 0,
+  })
 ];

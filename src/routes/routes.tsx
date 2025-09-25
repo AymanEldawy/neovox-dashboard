@@ -75,6 +75,9 @@ const routes: RouteObject[] = [
       {
         path: PATHS.USERS,
         element: <Users />,
+      },   {
+        path: PATHS.TEAMS,
+        element: <Users />,
       },
     ],
     element: <Layout />,

@@ -1,4 +1,4 @@
-import { MoonIcon, SunIcon } from "@/components/Icons";
+import { MoonIcon, SunIcon } from "@/components/icons";
 import { useTheme } from "@/store/themeStore";
 
 const ToggleThemeBar = () => {

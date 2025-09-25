@@ -1,7 +1,7 @@
 import "@/styles/date-picker.css";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { CalenderIcon } from "@/components/Icons";
+import { CalenderIcon } from "@/components/icons";
 import { ErrorText } from "@/components/shared/ErrorText";
 import ReactDatePicker from "react-datepicker";
 import { Controller, useFormContext } from "react-hook-form";

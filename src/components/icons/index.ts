@@ -4,7 +4,7 @@ export { default as BellIcon } from './BellIcon';
 export { default as CalenderIcon } from './CalenderIcon';
 export { default as ChevronDownIcon } from './ChevronDownIcon';
 export { default as ChevronIcon } from './ChevronIcon';
-export { default as closeIcon } from './closeIcon';
+export { default as closeIcon } from './CloseIcon';
 export { default as DashboardIcon } from './DashboardIcon';
 // export { default as EyeIcon } from './EyeIcon';
 export { default as EyeSlashIcon } from './EyeSlashIcon';
