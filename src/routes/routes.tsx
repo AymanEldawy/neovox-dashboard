@@ -1,9 +1,14 @@
 import Layout from "@/components/layout/Layout";
 import PublicLayout from "@/components/layout/PublicLayout";
 import PATHS from "@/data/paths";
-import { lazy } from "react";
-import type { RouteObject } from "react-router-dom";
+import {lazy} from "react";
+import type {RouteObject} from "react-router-dom";
 import NotFound from "../pages/NotFound";
+import InvestmentPlanPage from "@/components/forms/container/investmentPlans/components_forms_InvestmentPlansForm.tsx";
+import TaskManagementForm from "@/pages/AddMission.tsx";
+import DepositsTable from "@/pages/Deposits.tsx";
+import WithdrawalsTable from "@/pages/Withdrawals.tsx";
+import SettingsPage from "@/pages/Setting.tsx";
 
 const ForgetPassword = lazy(() => import("../pages/auth/ForgetPassword"))
 const Login = lazy(() => import("../pages/auth/Login"))
@@ -12,89 +17,83 @@ const Badges = lazy(() => import("../pages/Badges"));
 const DailyTasks = lazy(() => import("../pages/DailyTasks"));
 const InvestmentPlans = lazy(() => import("../pages/InvestmentPlans"));
 const Missions = lazy(() => import("../pages/Missions"));
-const Notifications = lazy(() => import("../pages/Notifications"));
-const PlanStates = lazy(() => import("../pages/PlanStates"));
 const Referrals = lazy(() => import("../pages/Referrals"));
-const UserBadges = lazy(() => import("../pages/UserBadges"));
-const UserMissions = lazy(() => import("../pages/UserMissions"));
 const Users = lazy(() => import("../pages/Users"));
 
 const routes: RouteObject[] = [
-  {
-    path: "/",
-    children: [
-      {
-        index: true,
-        element: <Dashboard />,
-      },
-      {
-        path: PATHS.BADGES,
+    {
+        path: "/",
         children: [
-          {
-            index: true,
-            element: <Badges />,
-          },
-          {
-            path: PATHS.ADD_BADGE,
-            element: <Badges />,
-          },
-        ]
-      },
-      {
-        path: PATHS.DAILY_TASKS,
-        element: <DailyTasks />,
-      },
-      {
-        path: PATHS.INVESTMENT_PLANS,
-        element: <InvestmentPlans />,
-      },
-      {
-        path: PATHS.MISSIONS,
-        element: <Missions />,
-      },
-      {
-        path: PATHS.NOTIFICATIONS,
-        element: <Notifications />,
-      },
-      {
-        path: PATHS.PLAN_STATES,
-        element: <PlanStates />,
-      },
-      {
-        path: PATHS.REFERRALS,
-        element: <Referrals />,
-      },
-      {
-        path: PATHS.USER_BADGES,
-        element: <UserBadges />,
-      },
-      {
-        path: PATHS.USER_MISSIONS,
-        element: <UserMissions />,
-      },
-      {
-        path: PATHS.USERS,
-        element: <Users />,
-      },   {
-        path: PATHS.TEAMS,
-        element: <Users />,
-      },
-    ],
-    element: <Layout />,
-  },
-  {
-    path: "/",
-    children: [
-      { path: PATHS.LOGIN, element: <Login /> },
-      { path: PATHS.FORGET_PASSWORD, element: <ForgetPassword /> },
-    ],
-    element: <PublicLayout />,
-  },
+            {
+                index: true,
+                element: <Dashboard/>,
+            },
+            {
+                path: PATHS.BADGES,
+                children: [
+                    {
+                        index: true,
+                        element: <Badges/>,
+                    },
+                    {
+                        path: PATHS.ADD_BADGE,
+                        element: <Badges/>,
+                    },
+                ]
+            },
+            {
+                path: PATHS.DEPOSITS,
+                element: <DepositsTable/>,
+            }, {
+                path: PATHS.WITHDRAWALS,
+                element: <WithdrawalsTable/>,
+            }, {
+                path: PATHS.DAILY_TASKS,
+                element: <DailyTasks/>,
+            },
+            {
+                path: PATHS.INVESTMENT_PLANS,
+                element: <InvestmentPlans/>,
+            }, {
+                path: PATHS.ADD_INVESTMENT_PLAN,
+                element: <InvestmentPlanPage/>,
+            },
+            {
+                path: PATHS.MISSIONS,
+                element: <Missions/>,
+            },
+            {
+                path: PATHS.ADD_MISSION,
+                element: <TaskManagementForm/>,
+            },
+            {
+                path: PATHS.REFERRALS,
+                element: <Referrals/>,
+            },
+            {
+                path: PATHS.USERS,
+                element: <Users/>,
+            },
+            {
+                path: PATHS.SETTINGS,
+                element: <SettingsPage/>,
+            }
+        ],
+        element: <Layout/>,
+    },
+    {
+        path: "/",
+        children: [
+            {path: PATHS.LOGIN, element: <Login/>},
+            {path: PATHS.FORGET_PASSWORD, element: <ForgetPassword/>},
+        ],
+        element: <PublicLayout/>,
+    },
 
-  {
-    path: "*",
-    element: <NotFound />
-  }
+    {
+        path: "*",
+        element: <NotFound/>
+    }
 ];
 
 

@@ -19,6 +19,9 @@ const Users: React.FC = () => {
       paperHeaderProps={{
         name: "Users",
       }}
+        enableRowActions={true}
+      showAddButton={false}
+
     />
   );
 };

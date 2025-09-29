@@ -4,9 +4,7 @@ import {
     FinancialIcon,
     InvestmentIcon,
     MissionIcon,
-    NotificationIcon,
     ReferralIcon,
-    SessionIcon,
     SettingsIcon,
     TeamIcon,
 } from "@/components/icons";
@@ -44,28 +42,12 @@ const sideMenuItems: SideMenuItem[] = [
         path: PATHS.USERS,
         permissions: PERMISSIONS[PATHS.USERS],
         icon: <UsersIcon className="h-6 w-6"/>,
-        // children: [
-        //   { name: 'users', path: PATHS.USERS, permissions: PERMISSIONS[PATHS.USERS] },
-        //   // { name: 'userBadges', path: PATHS.USER_BADGES, permissions: PERMISSIONS[PATHS.USER_BADGES] },
-        //   // { name: 'userInvestments', path: PATHS.USER_INVESTMENTS, permissions: PERMISSIONS[PATHS.USER_INVESTMENTS] },
-        //   // { name: 'userMissions', path: PATHS.USER_MISSIONS, permissions: PERMISSIONS[PATHS.USER_MISSIONS] },
-        // ],
     },
     {
         name: "teams",
         path: PATHS.TEAMS,
         permissions: PERMISSIONS[PATHS.TEAMS],
         icon: <TeamIcon className="h-6 w-6"/>,
-        // children: [
-        //   { name: 'teams', path: PATHS.TEAMS, permissions: PERMISSIONS[PATHS.TEAMS] },
-        //   { name: 'addTeam', path: PATHS.ADD_TEAM, permissions: PERMISSIONS[PATHS.ADD_TEAM] },
-        //   { name: 'teamMembers', path: PATHS.TEAM_MEMBERS, permissions: PERMISSIONS[PATHS.TEAM_MEMBERS] },
-        //   { name: 'teamMissions', path: PATHS.TEAM_MISSIONS, permissions: PERMISSIONS[PATHS.TEAM_MISSIONS] },
-        //   { name: 'addTeamMission', path: PATHS.ADD_TEAM_MISSION, permissions: PERMISSIONS[PATHS.ADD_TEAM_MISSION] },
-        //   { name: 'teamMissionProgress', path: PATHS.TEAM_MISSION_PROGRESS, permissions: PERMISSIONS[PATHS.TEAM_MISSION_PROGRESS] },
-        //   { name: 'teamMissionShards', path: PATHS.TEAM_MISSION_SHARDS, permissions: PERMISSIONS[PATHS.TEAM_MISSION_SHARDS] },
-        //   { name: 'teamRewards', path: PATHS.TEAM_REWARDS, permissions: PERMISSIONS[PATHS.TEAM_REWARDS] },
-        // ],
     },
     {
         name: "missions",
@@ -74,7 +56,7 @@ const sideMenuItems: SideMenuItem[] = [
         children: [
             {name: 'missions', path: PATHS.MISSIONS, permissions: PERMISSIONS[PATHS.MISSIONS]},
             {name: 'addMission', path: PATHS.ADD_MISSION, permissions: PERMISSIONS[PATHS.ADD_MISSION]},
-            {name: 'dailyTasks', path: PATHS.DAILY_TASKS, permissions: PERMISSIONS[PATHS.DAILY_TASKS]},
+            // {name: 'dailyTasks', path: PATHS.DAILY_TASKS, permissions: PERMISSIONS[PATHS.DAILY_TASKS]},
         ],
     },
     {
@@ -87,10 +69,7 @@ const sideMenuItems: SideMenuItem[] = [
                 name: 'addInvestmentPlan',
                 path: PATHS.ADD_INVESTMENT_PLAN,
                 permissions: PERMISSIONS[PATHS.ADD_INVESTMENT_PLAN]
-            },
-            {name: 'userInvestments', path: PATHS.USER_INVESTMENTS, permissions: PERMISSIONS[PATHS.USER_INVESTMENTS]},
-            {name: 'planStates', path: PATHS.PLAN_STATES, permissions: PERMISSIONS[PATHS.PLAN_STATES]},
-        ],
+            }],
     },
     {
         name: "financials",
@@ -123,18 +102,18 @@ const sideMenuItems: SideMenuItem[] = [
             {name: 'addBadge', path: PATHS.ADD_BADGE, permissions: PERMISSIONS[PATHS.ADD_BADGE]},
         ],
     },
-    {
-        name: "notifications",
-        path: PATHS.NOTIFICATIONS,
-        permissions: PERMISSIONS[PATHS.NOTIFICATIONS],
-        icon: <NotificationIcon className="h-6 w-6"/>,
-    },
-    {
-        name: "sessions",
-        path: PATHS.SESSIONS,
-        permissions: PERMISSIONS[PATHS.SESSIONS],
-        icon: <SessionIcon className="h-6 w-6"/>,
-    },
+    // {
+    //     name: "notifications",
+    //     path: PATHS.NOTIFICATIONS,
+    //     permissions: PERMISSIONS[PATHS.NOTIFICATIONS],
+    //     icon: <NotificationIcon className="h-6 w-6"/>,
+    // },
+    // {
+    //     name: "sessions",
+    //     path: PATHS.SESSIONS,
+    //     permissions: PERMISSIONS[PATHS.SESSIONS],
+    //     icon: <SessionIcon className="h-6 w-6"/>,
+    // },
     {
         name: "settings",
         path: PATHS.SETTINGS as string,
