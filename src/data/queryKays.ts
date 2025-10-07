@@ -25,7 +25,6 @@ const QUERY_KEYS = {
   REFERRAL_QUALIFICATION: "referral_qualification",
   TEAM_POOL_PARTICIPATION: "team_pool_participation",
   TEAMS: "teams",
-  TEAM: "team",
   TEAM_MEMBERS: "team_members",
   TEAM_MEMBER: "team_member",
   TEAM_MISSIONS: "team_missions",

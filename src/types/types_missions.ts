@@ -1,9 +1,9 @@
 export interface CreateMissionDto {
   title: string;
   description: string;
-  reward?: number; // e.g., points or currency
-  difficulty?: string; // e.g., 'easy', 'medium', 'hard'
-  createdAt?: string; // ISO date string
+  rewards: number; // e.g., points or currency
+  type: string; // e.g., "Daily", "Weekly", "Special"
+  createdAt: string; // ISO date string
 }
 
 export interface UpdateMissionDto {

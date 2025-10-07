@@ -1,20 +1,26 @@
 import PaperLayout from '@/components/paper/PaperLayout';
 import QUERY_KEYS from '@/data/queryKays';
-import { userColumns } from '@/helpers/columns/columns_UsersColumns';
-import { getAllUsers } from '@/services/';
 import React from 'react';
+import {getAllTeams} from "@/services/teamService.ts";
+import {teamColumns} from "@/helpers/columns/coulmns_Teams.ts";
 
 const Teams: React.FC = () => {
     return (
         <PaperLayout
             name="Teams"
             queryKey={QUERY_KEYS.TEAMS}
-            queryFn={get}
-            columns={userColumns}
+            queryFn={getAllTeams}
+            columns={teamColumns}
             handleDeleteSelected={() => Promise.resolve()}
+            // FormWrapper={() =>
+            //     <UsersForm />
+            // }
             paperHeaderProps={{
-                name: "Users",
+                name: "Teams",
             }}
+            enableRowActions={true}
+            showAddButton={false}
+
         />
     );
 };

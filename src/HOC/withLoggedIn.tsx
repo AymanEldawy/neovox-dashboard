@@ -1,4 +1,5 @@
 import { useAuthStore } from "@/store/authStore";
+import {Navigate} from "react-router-dom";
 
 const withLoggedIn = (Component: React.FC) => {
   const Wrapper: React.FC = (props) => {

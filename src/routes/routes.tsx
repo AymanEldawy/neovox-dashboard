@@ -9,6 +9,7 @@ import TaskManagementForm from "@/pages/missions/AddMission.tsx";
 import DepositsTable from "@/pages/financials/Deposits.tsx";
 import WithdrawalsTable from "@/pages/financials/Withdrawals.tsx";
 import SettingsPage from "@/pages/Setting.tsx";
+import Teams from "@/pages/teams/Teams.tsx";
 
 const ForgetPassword = lazy(() => import("../pages/auth/ForgetPassword"))
 const Login = lazy(() => import("../pages/auth/Login"))
@@ -84,6 +85,10 @@ const routes: RouteObject[] = [
             {
                 path: PATHS.SETTINGS,
                 element: <SettingsPage/>,
+            },
+            {
+                path: PATHS.TEAMS,
+                element: <Teams/>,
             }
         ],
         element: <Layout/>,
@@ -91,7 +96,7 @@ const routes: RouteObject[] = [
     {
         path: "/",
         children: [
-            {path: PATHS.LOGIN, element: <Login/>},
+            { path: PATHS.LOGIN, element: <Login/>},
             {path: PATHS.FORGET_PASSWORD, element: <ForgetPassword/>},
         ],
         element: <PublicLayout/>,

@@ -1,5 +1,6 @@
 import { useAuthStore } from "@/store/authStore";
 import React from 'react';
+import {Navigate} from "react-router-dom";
 
 
 const withLoggedOut = (Component: React.FC) => {
