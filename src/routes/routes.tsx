@@ -5,9 +5,9 @@ import {lazy} from "react";
 import type {RouteObject} from "react-router-dom";
 import NotFound from "../pages/NotFound";
 import InvestmentPlanPage from "@/components/forms/container/investmentPlans/components_forms_InvestmentPlansForm.tsx";
-import TaskManagementForm from "@/pages/AddMission.tsx";
-import DepositsTable from "@/pages/Deposits.tsx";
-import WithdrawalsTable from "@/pages/Withdrawals.tsx";
+import TaskManagementForm from "@/pages/missions/AddMission.tsx";
+import DepositsTable from "@/pages/financials/Deposits.tsx";
+import WithdrawalsTable from "@/pages/financials/Withdrawals.tsx";
 import SettingsPage from "@/pages/Setting.tsx";
 
 const ForgetPassword = lazy(() => import("../pages/auth/ForgetPassword"))
@@ -15,8 +15,8 @@ const Login = lazy(() => import("../pages/auth/Login"))
 const Dashboard = lazy(() => import("../pages/Dashboard"))
 const Badges = lazy(() => import("../pages/Badges"));
 const DailyTasks = lazy(() => import("../pages/DailyTasks"));
-const InvestmentPlans = lazy(() => import("../pages/InvestmentPlans"));
-const Missions = lazy(() => import("../pages/Missions"));
+const InvestmentPlans = lazy(() => import("../pages/investment-plans/InvestmentPlans.tsx"));
+const Missions = lazy(() => import("../pages/missions/Missions.tsx"));
 const Referrals = lazy(() => import("../pages/Referrals"));
 const Users = lazy(() => import("../pages/Users"));
 
@@ -54,10 +54,17 @@ const routes: RouteObject[] = [
             {
                 path: PATHS.INVESTMENT_PLANS,
                 element: <InvestmentPlans/>,
-            }, {
+
+            },
+            {
+                path: `${PATHS.ADD_INVESTMENT_PLAN}/:id`,
+                element: <InvestmentPlanPage />,
+            },
+            {
                 path: PATHS.ADD_INVESTMENT_PLAN,
                 element: <InvestmentPlanPage/>,
             },
+
             {
                 path: PATHS.MISSIONS,
                 element: <Missions/>,

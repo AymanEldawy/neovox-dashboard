@@ -1,8 +1,8 @@
-import PaperLayout from '@/components/paper/PaperLayout';
-import QUERY_KEYS from '@/data/queryKays';
+import PaperLayout from '@/components/paper/PaperLayout.tsx';
+import QUERY_KEYS from '@/data/queryKays.ts';
 import { investmentPlanColumns } from '@/helpers/columns/columns_InvestmentPlans.ts';
 import { getAllInvestmentPlans, deleteInvestmentPlan } from '@/services/investmentPlansService.ts';
-import InvestmentPlanForm from '@/components/forms/container/investmentPlans/components_forms_InvestmentPlansForm';
+import InvestmentPlanForm from '@/components/forms/container/investmentPlans/components_forms_InvestmentPlansForm.tsx';
 
 const InvestmentPlans: React.FC = () => {
     return (
@@ -18,7 +18,7 @@ const InvestmentPlans: React.FC = () => {
             paperHeaderProps={{
                 name: "Investment Plans",
             }}
-            showAddButton={true} // ✅ هيظهر
+            showAddButton={true}
         />
     );
 };

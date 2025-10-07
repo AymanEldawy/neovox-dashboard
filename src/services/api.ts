@@ -1,6 +1,6 @@
 import { USER_STORE_KEY } from "@/data/constants";
 
-const HTTP_BASE = import.meta.env.VITE_API_URL || "http://195.200.15.135";
+const HTTP_BASE = import.meta.env.VITE_API_URL;
 
 const defaultHeaders = {
   "Content-Type": "application/json",

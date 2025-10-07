@@ -26,7 +26,8 @@ const API_URLS = {
   BASE_TEAMS: '/teams',
   BASE_TRANSACTIONS: '/transactions',
   BASE_WITHDRAWALS: '/withdrawals',
-  
+  BASE_SOCIAL_LINKS: '/social-link',
+
   
 }
 

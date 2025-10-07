@@ -51,25 +51,16 @@ const sideMenuItems: SideMenuItem[] = [
     },
     {
         name: "missions",
+        path: PATHS.MISSIONS,
         permissions: PERMISSIONS[PATHS.MISSIONS],
         icon: <MissionIcon className="h-6 w-6"/>,
-        children: [
-            {name: 'missions', path: PATHS.MISSIONS, permissions: PERMISSIONS[PATHS.MISSIONS]},
-            {name: 'addMission', path: PATHS.ADD_MISSION, permissions: PERMISSIONS[PATHS.ADD_MISSION]},
-            // {name: 'dailyTasks', path: PATHS.DAILY_TASKS, permissions: PERMISSIONS[PATHS.DAILY_TASKS]},
-        ],
     },
     {
-        name: "investments",
+        name: "investmentPlans",
+        path: PATHS.INVESTMENT_PLANS,
         permissions: PERMISSIONS[PATHS.INVESTMENT_PLANS],
         icon: <InvestmentIcon className="h-6 w-6"/>,
-        children: [
-            {name: 'investmentPlans', path: PATHS.INVESTMENT_PLANS, permissions: PERMISSIONS[PATHS.INVESTMENT_PLANS]},
-            {
-                name: 'addInvestmentPlan',
-                path: PATHS.ADD_INVESTMENT_PLAN,
-                permissions: PERMISSIONS[PATHS.ADD_INVESTMENT_PLAN]
-            }],
+
     },
     {
         name: "financials",
@@ -95,12 +86,9 @@ const sideMenuItems: SideMenuItem[] = [
     },
     {
         name: "badges",
+        path: PATHS.BADGES,
         permissions: PERMISSIONS[PATHS.BADGES],
         icon: <BadgeIcon className="h-6 w-6"/>,
-        children: [
-            {name: 'badges', path: PATHS.BADGES, permissions: PERMISSIONS[PATHS.BADGES]},
-            {name: 'addBadge', path: PATHS.ADD_BADGE, permissions: PERMISSIONS[PATHS.ADD_BADGE]},
-        ],
     },
     // {
     //     name: "notifications",

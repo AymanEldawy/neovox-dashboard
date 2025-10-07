@@ -18,8 +18,11 @@ import {
     Zap,
     Settings,
 } from "lucide-react";
+import {useNavigate} from "react-router-dom";
 
 const TaskManagementForm = () => {
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         title: "",
         description: "",
@@ -39,7 +42,9 @@ const TaskManagementForm = () => {
     });
 
     const [showSuccess, setShowSuccess] = useState(false);
-
+    const handleCancel = () => {
+        navigate('/missions');
+    };
     const handleInputChange = (field, value) => {
         setFormData((prev) => ({ ...prev, [field]: value }));
     };
@@ -161,7 +166,7 @@ const TaskManagementForm = () => {
                 <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 rounded-2xl shadow-2xl p-8 mb-8 text-white">
                     <div className="flex items-center justify-between flex-wrap gap-4">
                         <div className="flex items-center gap-4">
-                            <button className="p-2 hover:bg-white/20 rounded-lg transition">
+                            <button className="p-2 hover:bg-white/20 rounded-lg transition" onClick={handleCancel}>
                                 <ArrowLeft className="w-6 h-6" />
                             </button>
                             <div>

@@ -1,9 +1,9 @@
 import { createColumnHelper } from '@tanstack/react-table';
-import { CreateMissionDto } from '../types/missions';
+import type {CreateMissionDto} from "@/types/types_missions.ts";
 
 const columnHelper = createColumnHelper<CreateMissionDto>();
 
-export const columns = [
+export const missionColumns = [
   columnHelper.accessor('title', {
     header: 'Title',
     cell: info => info.getValue(),
