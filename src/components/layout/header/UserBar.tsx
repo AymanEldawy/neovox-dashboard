@@ -1,9 +1,14 @@
 import { useAuthStore } from "@/store/authStore";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 
 const UserBar = () => {
-  const { logout } = useAuthStore()
+  const { logout ,user,token,getProfile} = useAuthStore()
   const [open, setOpen] = useState(false);
+    useEffect(() => {
+        if (token) {
+            getProfile();
+        }
+    }, [token, getProfile]);
 
   const handleLogout = () => logout();
 
@@ -28,16 +33,16 @@ const UserBar = () => {
         <div className="z-50 absolute ltr:right-0 rtl:left-0 top-6 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
           <div className="px-4 py-3">
             <span className="block text-sm text-gray-900 dark:text-white">
-              Bonnie Green
+              {user?.firstName}
             </span>
             <span className="block text-sm font-medium text-gray-500 truncate dark:text-gray-400">
-              name@flowbite.com
+             {user?.email}
             </span>
           </div>
           <ul className="py-2" aria-labelledby="user-menu-button">
             <li>
               <a
-                href="#"
+                href="/"
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
               >
                 Dashboard

@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import {
     ArrowLeft,
@@ -61,8 +62,8 @@ interface PlatformOption {
 
 const SettingsPage = () => {
     const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
-    const [withdrawalFee, setWithdrawalFee] = useState<WithdrawalFee>();
-    const [initialGift, setInitialGift] = useState<InitialGift>();
+    const [withdrawalFee, setWithdrawalFee] = useState<WithdrawalFee>({ withdrawalTax: 0, minWithdrawalAmount: 0 });
+    const [initialGift, setInitialGift] = useState<InitialGift>({ amount: 0, currency: "USD", enabled: false });
     const [showSuccess, setShowSuccess] = useState<{
         socialLinks: boolean;
         withdrawalFee: boolean;
@@ -93,17 +94,25 @@ const SettingsPage = () => {
             try {
                 setIsLoading(true);
                 const [socialLinksData, withdrawalFeeData, initialGiftData] = await Promise.all([
-                    getSocialLinks(),
-                    getWithdrawalSettings().then(res=> res.data), // Default if null
-                    getInitialGift().then(res => res.data), // Default if null
+                    getSocialLinks().then(res=> res.data ),
+                    getWithdrawalSettings().then(res => res.data ),
+                    getInitialGift().then(res => res.data ),
                 ]);
-                // Ensure socialLinks is always an array
-                setSocialLinks(Array.isArray(socialLinksData) ? socialLinksData : []);
+                // Map social links to include icon from platformOptions
+                const mappedSocialLinks = Array.isArray(socialLinksData) ? socialLinksData.map(link => {
+                    const platform = platformOptions.find(p => p.value === link.platform) || platformOptions[9]; // Fallback to "website"
+                    return {
+                        id: link.id,
+                        platform: link.platform,
+                        url: link.url,
+                        icon: platform.icon
+                    };
+                }) : [];
+                setSocialLinks(mappedSocialLinks);
                 setWithdrawalFee(withdrawalFeeData);
                 setInitialGift(initialGiftData);
             } catch (error) {
                 console.error("Failed to load settings:", error);
-                // Fallback to default values
                 setSocialLinks([]);
             } finally {
                 setIsLoading(false);
@@ -129,8 +138,8 @@ const SettingsPage = () => {
             socialLinks.map((link) => {
                 if (link.id === id) {
                     if (field === "platform") {
-                        const platform = platformOptions.find((p) => p.value === value);
-                        return { ...link, platform: value, icon: platform?.icon || Globe };
+                        const platform = platformOptions.find((p) => p.value === value) || platformOptions[9]; // Fallback to "website"
+                        return { ...link, platform: value, icon: platform.icon };
                     }
                     return { ...link, [field]: value };
                 }
@@ -143,7 +152,6 @@ const SettingsPage = () => {
         try {
             await saveSocialLinks(socialLinks);
             setShowSuccess((prev) => ({ ...prev, socialLinks: true }));
-            setTimeout(() => setShowSuccess((prev) => ({ ...prev, socialLinks: false })), 3000);
         } catch (error) {
             console.error("Failed to save social links:", error);
         }
@@ -153,7 +161,6 @@ const SettingsPage = () => {
         try {
             await saveWithdrawalFee(withdrawalFee);
             setShowSuccess((prev) => ({ ...prev, withdrawalFee: true }));
-            setTimeout(() => setShowSuccess((prev) => ({ ...prev, withdrawalFee: false })), 3000);
         } catch (error) {
             console.error("Failed to save withdrawal fee:", error);
         }
@@ -163,10 +170,13 @@ const SettingsPage = () => {
         try {
             await saveInitialGift(initialGift);
             setShowSuccess((prev) => ({ ...prev, initialGift: true }));
-            setTimeout(() => setShowSuccess((prev) => ({ ...prev, initialGift: false })), 3000);
         } catch (error) {
             console.error("Failed to save initial gift:", error);
         }
+    };
+
+    const handleCloseSuccessDialog = (section: keyof typeof showSuccess) => {
+        setShowSuccess((prev) => ({ ...prev, [section]: false }));
     };
 
     if (isLoading) {
@@ -177,8 +187,6 @@ const SettingsPage = () => {
         );
     }
 
-    // @ts-ignore
-    // @ts-ignore
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-50 py-8 px-4">
             <div className="max-w-6xl mx-auto">
@@ -197,26 +205,6 @@ const SettingsPage = () => {
                         <Settings className="w-12 h-12 opacity-50" />
                     </div>
                 </div>
-
-                {/* Success Alerts */}
-                {showSuccess.socialLinks && (
-                    <div className="bg-green-50 border-2 border-green-500 rounded-xl p-4 mb-6 flex items-center gap-3">
-                        <CheckCircle className="w-6 h-6 text-green-600" />
-                        <span className="text-green-800 font-medium">Social links saved successfully!</span>
-                    </div>
-                )}
-                {showSuccess.withdrawalFee && (
-                    <div className="bg-green-50 border-2 border-green-500 rounded-xl p-4 mb-6 flex items-center gap-3">
-                        <CheckCircle className="w-6 h-6 text-green-600" />
-                        <span className="text-green-800 font-medium">Withdrawal fee saved successfully!</span>
-                    </div>
-                )}
-                {showSuccess.initialGift && (
-                    <div className="bg-green-50 border-2 border-green-500 rounded-xl p-4 mb-6 flex items-center gap-3">
-                        <CheckCircle className="w-6 h-6 text-green-600" />
-                        <span className="text-green-800 font-medium">Initial gift saved successfully!</span>
-                    </div>
-                )}
 
                 <div className="space-y-8">
                     {/* Social Links Section */}
@@ -252,8 +240,8 @@ const SettingsPage = () => {
                         <div className="space-y-4">
                             {Array.isArray(socialLinks) && socialLinks.length > 0 ? (
                                 socialLinks.map((link) => {
-                                    const platform = platformOptions.find((p) => p.value === link.platform);
-                                    const Icon = platform?.icon || Globe;
+                                    const platform = platformOptions.find((p) => p.value === link.platform) || platformOptions[9]; // Fallback to "website"
+                                    const Icon = link.icon;
 
                                     return (
                                         <div
@@ -261,7 +249,7 @@ const SettingsPage = () => {
                                             className="flex items-center gap-4 p-4 border-2 border-gray-200 rounded-xl hover:border-blue-300 transition"
                                         >
                                             <div className="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-lg">
-                                                <Icon className={`w-6 h-6 ${platform?.color || "text-gray-600"}`} />
+                                                <Icon className={`w-6 h-6 ${platform.color}`} />
                                             </div>
 
                                             <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -281,7 +269,7 @@ const SettingsPage = () => {
                                                     type="text"
                                                     value={link.url}
                                                     onChange={(e) => updateSocialLink(link.id, "url", e.target.value)}
-                                                    placeholder={`Enter ${platform?.label} URL`}
+                                                    placeholder={`Enter ${platform.label} URL`}
                                                     className="px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:outline-none transition"
                                                 />
                                             </div>
@@ -343,6 +331,12 @@ const SettingsPage = () => {
                                         type="number"
                                         step="0.1"
                                         value={withdrawalFee.withdrawalTax}
+                                        onChange={(e) =>
+                                            setWithdrawalFee({
+                                                ...withdrawalFee,
+                                                withdrawalTax: parseFloat(e.target.value) || 0,
+                                            })
+                                        }
                                         className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-orange-500 focus:outline-none transition"
                                     />
                                     <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 font-semibold">
@@ -355,7 +349,7 @@ const SettingsPage = () => {
                             <div>
                                 <label className="flex items-center gap-2 text-gray-700 font-semibold mb-2">
                                     <DollarSign className="w-5 h-5 text-green-600" />
-                                    Minimum Fee
+                                    Minimum Withdrawal Amount
                                 </label>
                                 <div className="relative">
                                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-semibold">$</span>
@@ -366,15 +360,14 @@ const SettingsPage = () => {
                                         onChange={(e) =>
                                             setWithdrawalFee({
                                                 ...withdrawalFee,
-                                                minFee: parseFloat(e.target.value) || 0,
+                                                minWithdrawalAmount: parseFloat(e.target.value) || 0,
                                             })
                                         }
                                         className="w-full pl-8 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-orange-500 focus:outline-none transition"
                                     />
                                 </div>
-                                <p className="text-xs text-gray-500 mt-1">Minimum fee amount</p>
+                                <p className="text-xs text-gray-500 mt-1">Minimum withdrawal amount</p>
                             </div>
-
                         </div>
 
                         {/* Fee Preview */}
@@ -384,16 +377,16 @@ const SettingsPage = () => {
                                 <p>
                                     • For $100 withdrawal: $
                                     {Math.max(
-                                        withdrawalFee?.minWithdrawalAmount,
-                                        Math.min((100 * withdrawalFee?.withdrawalTax) / 100)
+                                        withdrawalFee.minWithdrawalAmount,
+                                        (100 * withdrawalFee.withdrawalTax) / 100
                                     ).toFixed(2)}{" "}
                                     fee
                                 </p>
                                 <p>
                                     • For $1000 withdrawal: $
                                     {Math.max(
-                                        withdrawalFee?.minWithdrawalAmount,
-                                        Math.min((1000 * withdrawalFee?.withdrawalTax) / 100)
+                                        withdrawalFee.minWithdrawalAmount,
+                                        (1000 * withdrawalFee.withdrawalTax) / 100
                                     ).toFixed(2)}{" "}
                                     fee
                                 </p>
@@ -433,7 +426,13 @@ const SettingsPage = () => {
                                     <input
                                         type="number"
                                         step="0.1"
-                                        value={initialGift}
+                                        value={initialGift.amount}
+                                        onChange={(e) =>
+                                            setInitialGift({
+                                                ...initialGift,
+                                                amount: parseFloat(e.target.value) || 0,
+                                            })
+                                        }
                                         className="w-full pl-8 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition"
                                     />
                                 </div>
@@ -457,36 +456,6 @@ const SettingsPage = () => {
                                 </select>
                                 <p className="text-xs text-gray-500 mt-1">Gift currency type</p>
                             </div>
-
-                            {/*<div>*/}
-                            {/*    <label className="flex items-center gap-2 text-gray-700 font-semibold mb-2">*/}
-                            {/*        <CheckCircle className="w-5 h-5 text-blue-600" />*/}
-                            {/*        Status*/}
-                            {/*    </label>*/}
-                            {/*    <div*/}
-                            {/*        className={`relative w-full h-[50px] rounded-xl cursor-pointer transition ${*/}
-                            {/*            initialGift.enabled ? "bg-green-500" : "bg-gray-300"*/}
-                            {/*        }`}*/}
-                            {/*        onClick={() => setInitialGift({ ...initialGift, enabled: !initialGift.enabled })}*/}
-                            {/*    >*/}
-                            {/*        <div*/}
-                            {/*            className={`absolute top-1 left-1 h-[42px] bg-white rounded-lg transition-all duration-300 flex items-center justify-center font-bold ${*/}
-                            {/*                initialGift.enabled*/}
-                            {/*                    ? "w-[calc(50%-4px)] translate-x-[calc(100%+8px)]"*/}
-                            {/*                    : "w-[calc(50%-4px)]"*/}
-                            {/*            }`}*/}
-                            {/*        >*/}
-                            {/*            {initialGift.enabled ? (*/}
-                            {/*                <span className="text-green-600">Enabled</span>*/}
-                            {/*            ) : (*/}
-                            {/*                <span className="text-gray-600">Disabled</span>*/}
-                            {/*            )}*/}
-                            {/*        </div>*/}
-                            {/*    </div>*/}
-                            {/*    <p className="text-xs text-gray-500 mt-1">*/}
-                            {/*        {initialGift.enabled ? "Gift is active" : "Gift is inactive"}*/}
-                            {/*    </p>*/}
-                            {/*</div>*/}
                         </div>
 
                         {/* Gift Preview */}
@@ -507,6 +476,61 @@ const SettingsPage = () => {
                         )}
                     </div>
                 </div>
+
+                {/* Success Dialogs */}
+                {showSuccess.socialLinks && (
+                    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                        <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6">
+                            <div className="flex items-center gap-3 mb-4">
+                                <CheckCircle className="w-8 h-8 text-green-600" />
+                                <h2 className="text-xl font-bold text-gray-900">Success</h2>
+                            </div>
+                            <p className="text-gray-600 mb-6">Social links saved successfully!</p>
+                            <button
+                                onClick={() => handleCloseSuccessDialog("socialLinks")}
+                                className="w-full bg-green-600 text-white font-bold py-3 rounded-xl hover:bg-green-700 transition"
+                            >
+                                OK
+                            </button>
+                        </div>
+                    </div>
+                )}
+
+                {showSuccess.withdrawalFee && (
+                    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                        <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6">
+                            <div className="flex items-center gap-3 mb-4">
+                                <CheckCircle className="w-8 h-8 text-green-600" />
+                                <h2 className="text-xl font-bold text-gray-900">Success</h2>
+                            </div>
+                            <p className="text-gray-600 mb-6">Withdrawal fee saved successfully!</p>
+                            <button
+                                onClick={() => handleCloseSuccessDialog("withdrawalFee")}
+                                className="w-full bg-green-600 text-white font-bold py-3 rounded-xl hover:bg-green-700 transition"
+                            >
+                                OK
+                            </button>
+                        </div>
+                    </div>
+                )}
+
+                {showSuccess.initialGift && (
+                    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                        <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6">
+                            <div className="flex items-center gap-3 mb-4">
+                                <CheckCircle className="w-8 h-8 text-green-600" />
+                                <h2 className="text-xl font-bold text-gray-900">Success</h2>
+                            </div>
+                            <p className="text-gray-600 mb-6">Initial gift saved successfully!</p>
+                            <button
+                                onClick={() => handleCloseSuccessDialog("initialGift")}
+                                className="w-full bg-green-600 text-white font-bold py-3 rounded-xl hover:bg-green-700 transition"
+                            >
+                                OK
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

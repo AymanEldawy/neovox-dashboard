@@ -66,7 +66,7 @@ const PaperLayout = ({
                         ) : (
                             <>
                                 <button
-                                    onClick={() => navigate(`/${queryKey}/${row.original.id}`)}
+                                    onClick={() => navigate(`/${queryKey}/add/${row.original.id}`)}
                                     className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition"
                                     title="View"
                                 >

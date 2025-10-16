@@ -5,9 +5,9 @@ const withLoggedIn = (Component: React.FC) => {
   const Wrapper: React.FC = (props) => {
     const { user, token } = useAuthStore();
 
-    // if (!user && !token) {
-    //   return <Navigate to="/login" replace />;
-    // }
+    if (!user && !token) {
+      return <Navigate to="/login" replace />;
+    }
 
     return <Component {...props} />;
   };

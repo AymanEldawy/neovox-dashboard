@@ -4,7 +4,7 @@ const PATHS = {
   FORGET_PASSWORD: "/forget-password",
   RESET_PASSWORD: "/reset-password",
   SETTINGS: "/settings",
-  ADD_USER: '/add-user',
+  ADD_USER: '/users/add',
   USERS: '/users',
   // Modules from SQL schema
   BADGES: '/badges',

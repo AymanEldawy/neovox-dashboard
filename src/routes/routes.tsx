@@ -10,6 +10,9 @@ import DepositsTable from "@/pages/financials/Deposits.tsx";
 import WithdrawalsTable from "@/pages/financials/Withdrawals.tsx";
 import SettingsPage from "@/pages/Setting.tsx";
 import Teams from "@/pages/teams/Teams.tsx";
+import TeamDetails from "@/pages/teams/TeamDetails.tsx";
+import UserDetailsPage from "@/pages/users/UserDetsils.tsx";
+import CryptoManagementDashboard from "@/pages/cryptos/AddCryptos.tsx";
 
 const ForgetPassword = lazy(() => import("../pages/auth/ForgetPassword"))
 const Login = lazy(() => import("../pages/auth/Login"))
@@ -19,7 +22,7 @@ const DailyTasks = lazy(() => import("../pages/DailyTasks"));
 const InvestmentPlans = lazy(() => import("../pages/investment-plans/InvestmentPlans.tsx"));
 const Missions = lazy(() => import("../pages/missions/Missions.tsx"));
 const Referrals = lazy(() => import("../pages/Referrals"));
-const Users = lazy(() => import("../pages/Users"));
+const Users = lazy(() => import("../pages/users/Users.tsx"));
 
 const routes: RouteObject[] = [
     {
@@ -59,7 +62,7 @@ const routes: RouteObject[] = [
             },
             {
                 path: `${PATHS.ADD_INVESTMENT_PLAN}/:id`,
-                element: <InvestmentPlanPage />,
+                element: <InvestmentPlanPage/>,
             },
             {
                 path: PATHS.ADD_INVESTMENT_PLAN,
@@ -73,6 +76,9 @@ const routes: RouteObject[] = [
             {
                 path: PATHS.ADD_MISSION,
                 element: <TaskManagementForm/>,
+            }, {
+                path: `${PATHS.ADD_MISSION}/:id`,
+                element: <TaskManagementForm/>,
             },
             {
                 path: PATHS.REFERRALS,
@@ -83,12 +89,24 @@ const routes: RouteObject[] = [
                 element: <Users/>,
             },
             {
+                path: `${PATHS.ADD_USER}/:id`,
+                element: <UserDetailsPage/>,
+            },
+            {
                 path: PATHS.SETTINGS,
                 element: <SettingsPage/>,
             },
             {
                 path: PATHS.TEAMS,
                 element: <Teams/>,
+            },
+            {
+                path: `${PATHS.ADD_TEAM}/:id`,
+                element: <TeamDetails/>,
+            },
+            {
+                path: '/add-crypto',
+                element: <CryptoManagementDashboard/>,
             }
         ],
         element: <Layout/>,
@@ -96,7 +114,7 @@ const routes: RouteObject[] = [
     {
         path: "/",
         children: [
-            { path: PATHS.LOGIN, element: <Login/>},
+            {path: PATHS.LOGIN, element: <Login/>},
             {path: PATHS.FORGET_PASSWORD, element: <ForgetPassword/>},
         ],
         element: <PublicLayout/>,

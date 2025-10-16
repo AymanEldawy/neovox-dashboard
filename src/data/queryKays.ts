@@ -45,6 +45,7 @@ const QUERY_KEYS = {
   USER_MISSION: "user_mission",
   WITHDRAWALS: "withdrawals",
   WITHDRAWAL: "withdrawal",
+  CRYPTOS:"cryptos"
 };
 
 export default QUERY_KEYS;

@@ -4,7 +4,7 @@ import { useAuthStore } from "@/store/authStore";
 import type { UserLoginType } from "@/types/user.type";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Login = () => {
@@ -17,8 +17,8 @@ const Login = () => {
     formState: { errors, isSubmitting },
   } = useForm<UserLoginType>({
     defaultValues: {
-      username: "superadmin",
-      password: "superpass"
+      email: "marwanbakri3010@gmail.com",
+      password: "Ma123456@"
     }
   });
 
@@ -30,7 +30,7 @@ const Login = () => {
 
   const onSubmit = async (values: UserLoginType) => {
     const data = await login(values);
-    if (data && data.status === 'error') {
+    if (data.success) {
       toast.error(data.message);
       return;
     } else {
@@ -49,14 +49,14 @@ const Login = () => {
         <div className="rounded-xl bg-white p-8 shadow-lg">
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)} name="login-form">
             <div className="space-y-1.5">
-              <label className="sr-only" htmlFor="username">Username</label>
+              <label className="sr-only" htmlFor="email">email</label>
               <input
                 type="text"
-                placeholder="Username"
-                {...register("username", { required: true })}
+                placeholder="email"
+                {...register("email", { required: true })}
                 className="border block w-full rounded-lg border-gray-300 bg-gray-50 px-4 py-3 text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:border-[var(--primary-color)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]"
               />
-              {errors?.username ? <ErrorMessage title={errors.username.message || "username is required"} /> : null}
+              {errors?.email ? <ErrorMessage title={errors.email.message || "email is required"} /> : null}
             </div>
             <div className="space-y-1.5">
               <label className="sr-only" htmlFor="password">Password</label>
@@ -78,7 +78,7 @@ const Login = () => {
               </button>
             </div>
           </form>
-          <Link to="/forget-password" className="text-center block w-full mt-6 hover:!underline">Forget password</Link>
+          {/*<Link to="/forget-password" className="text-center block w-full mt-6 hover:!underline">Forget password</Link>*/}
         </div>
       </div>
     </main>

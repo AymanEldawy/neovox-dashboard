@@ -429,15 +429,15 @@ const DepositsTable = () => {
                                                 <ImageIcon className="w-5 h-5 text-purple-600"/>
                                                 <h3 className="font-bold text-lg">Receipt Image</h3>
                                             </div>
-                                            <button
-                                                onClick={() => setIsZoomEnabled(!isZoomEnabled)}
-                                                className="p-2 bg-purple-100 text-purple-600 rounded-lg hover:bg-purple-200 transition flex items-center gap-2"
-                                                title={isZoomEnabled ? "Disable Zoom" : "Enable Zoom"}
-                                            >
-                                                {isZoomEnabled ? <ZoomOut className="w-5 h-5"/> :
-                                                    <ZoomIn className="w-5 h-5"/>}
-                                                {isZoomEnabled ? "Disable Zoom" : "Enable Zoom"}
-                                            </button>
+                                            {/*<button*/}
+                                            {/*    onClick={() => setIsZoomEnabled(!isZoomEnabled)}*/}
+                                            {/*    className="p-2 bg-purple-100 text-purple-600 rounded-lg hover:bg-purple-200 transition flex items-center gap-2"*/}
+                                            {/*    title={isZoomEnabled ? "Disable Zoom" : "Enable Zoom"}*/}
+                                            {/*>*/}
+                                            {/*    {isZoomEnabled ? <ZoomOut className="w-5 h-5"/> :*/}
+                                            {/*        <ZoomIn className="w-5 h-5"/>}*/}
+                                            {/*    {isZoomEnabled ? "Disable Zoom" : "Enable Zoom"}*/}
+                                            {/*</button>*/}
                                         </div>
                                         <div
                                             className="relative bg-gray-100 rounded-xl overflow-hidden flex-1 min-h-[600px]">

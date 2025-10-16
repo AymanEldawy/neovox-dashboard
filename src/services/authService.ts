@@ -1,10 +1,14 @@
 import { apiFetch } from "./api";
 import API_URLS from "./apiUrlPaths";
 
-export const login = (data: { username: string; password: string }) =>
+export const login = (data: { email: string; password: string }) =>
   apiFetch(`${API_URLS.BASE_AUTH}/login`, {
     method: "POST",
     body: JSON.stringify(data),
+  });
+export const getProfile = () =>
+  apiFetch(`${API_URLS.BASE_AUTH}/profile`, {
+    method: "GET",
   });
 
 export const forgetPassword = (data: { email: string }) =>

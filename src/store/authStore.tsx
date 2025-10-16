@@ -1,5 +1,5 @@
 import { USER_STORE_KEY } from '@/data/constants';
-import { login } from '@/services/authService';
+import { login ,getProfile} from '@/services/authService';
 import type { AuthStoreType, UserLoginType } from '@/types/user.type';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
@@ -13,13 +13,21 @@ export const useAuthStore = create<AuthStoreType>()(
       error: null,
       login: async (user: UserLoginType) => {
         const data = await login(user);
-        if (data.status !== 'error')          
-          set({ user: data.user, token: data.token });
+        if (data.success)
+          set({ user: data.user, token: data.data.accessToken });
         return data
       },
       logout: () => {
         set({ user: null, token: null, });
       },
+        getProfile: async () => {
+    try {
+        const response = await getProfile(); // استرجاع بيانات المستخدم
+        set({ user: response.data }); // تخزين البيانات في Zustand store
+    } catch (error) {
+        console.error("Error fetching profile:", error);
+    }
+},
     }),
     {
       name: USER_STORE_KEY,
