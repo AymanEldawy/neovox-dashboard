@@ -7,7 +7,7 @@ export const saveSocialLinks = (data:any) =>
     });
 // Get all plan states
 export const  saveWithdrawalFee = (data: any) =>
-    apiFetch(`${API_URLS.BASE_WITHDRAWALS}/fee`, {
+    apiFetch(`${API_URLS.BASE_WITHDRAWALS}/settings`, {
         method: "POST",
         body: JSON.stringify(data),
     });

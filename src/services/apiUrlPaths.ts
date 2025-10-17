@@ -27,8 +27,10 @@ const API_URLS = {
   BASE_TRANSACTIONS: '/transactions',
   BASE_WITHDRAWALS: '/withdrawals',
   BASE_SOCIAL_LINKS: '/social-link',
+  BASE_EMPLOYEES: '/employees',
+  BASE_CRYPTOS:'/cryptos',
+  BASE_DASHBOARD:'/dashboard'
 
-  
 }
 
 export default API_URLS

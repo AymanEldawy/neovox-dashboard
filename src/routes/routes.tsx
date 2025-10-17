@@ -12,11 +12,14 @@ import SettingsPage from "@/pages/Setting.tsx";
 import Teams from "@/pages/teams/Teams.tsx";
 import TeamDetails from "@/pages/teams/TeamDetails.tsx";
 import UserDetailsPage from "@/pages/users/UserDetsils.tsx";
-import CryptoManagementDashboard from "@/pages/cryptos/AddCryptos.tsx";
+import Employees from "@/pages/employee/Employees.tsx";
+import AddEmployee from "@/pages/employee/AddEmployee.tsx";
+import MangeCrypto from "@/pages/cryptos/MangeCrypto.tsx";
+import CryptoManagementForm from "@/pages/cryptos/AddCryptos.tsx";
 
 const ForgetPassword = lazy(() => import("../pages/auth/ForgetPassword"))
 const Login = lazy(() => import("../pages/auth/Login"))
-const Dashboard = lazy(() => import("../pages/Dashboard"))
+const Dashboard = lazy(() => import("../pages/dashboard/Dashboard.tsx"))
 const Badges = lazy(() => import("../pages/Badges"));
 const DailyTasks = lazy(() => import("../pages/DailyTasks"));
 const InvestmentPlans = lazy(() => import("../pages/investment-plans/InvestmentPlans.tsx"));
@@ -105,8 +108,17 @@ const routes: RouteObject[] = [
                 element: <TeamDetails/>,
             },
             {
-                path: '/add-crypto',
-                element: <CryptoManagementDashboard/>,
+                path: PATHS.CRYPTOS,
+                element: <MangeCrypto/>,
+            },{
+                path: `${PATHS.CRYPTOS}/add`,
+                element: <CryptoManagementForm/>,
+            },{
+                path: PATHS.EMPLOYEES,
+                element: <Employees/>,
+            },{
+                path: `${PATHS.EMPLOYEES}/add`,
+                element: <AddEmployee/>,
             }
         ],
         element: <Layout/>,

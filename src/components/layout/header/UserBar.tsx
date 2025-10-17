@@ -14,21 +14,20 @@ const UserBar = () => {
 
   return (
     <div className="relative w-full">
-      <button
-        type="button"
-        className="flex w-full mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-        id="user-menu-button"
-        aria-expanded="true"
-        data-dropdown-placement="bottom"
-        onClick={() => setOpen((p) => !p)}
-      >
-        <span className="sr-only">Open user menu</span>
-        <img
-          alt="user"
-          className="w-8 h-8 rounded-full"
-          src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
-        />
-      </button>
+        <button
+            type="button"
+            className="flex items-center text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+            onClick={() => setOpen(!open)}
+        >
+            <span className="sr-only">Open user menu</span>
+
+            {/* Avatar placeholder with initials */}
+            <div className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-600 text-white font-semibold">
+                {user?.firstName && user?.lastName
+                    ? `${user.firstName[0]}${user.lastName[0]}`.toUpperCase()
+                    : "U"}
+            </div>
+        </button>
       {open ? (
         <div className="z-50 absolute ltr:right-0 rtl:left-0 top-6 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
           <div className="px-4 py-3">
@@ -46,22 +45,6 @@ const UserBar = () => {
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
               >
                 Dashboard
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-              >
-                Settings
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-              >
-                Earnings
               </a>
             </li>
             <li>

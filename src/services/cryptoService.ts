@@ -1,4 +1,3 @@
-import type { CreateCryptoDto, UpdateCryptoDto } from "@/types/types_cryptos";
 import { apiFetch } from "./api";
 import API_URLS from "./apiUrlPaths";
 
@@ -15,15 +14,15 @@ export const getCryptoById = (id: string) =>
     });
 
 // Create a new cryptocurrency
-export const createCrypto = (data: CreateCryptoDto) =>
+export const createCrypto = (data:any) =>
     apiFetch(`${API_URLS.BASE_CRYPTOS}`, {
         method: "POST",
         body: JSON.stringify(data),
     });
 
 // Update an existing cryptocurrency by ID
-export const updateCrypto = (id: string, data: UpdateCryptoDto) =>
-    apiFetch(`${API_URLS.BASE_CRYPTOS}/${id}`, {
+export const updateCrypto = ( data: any) =>
+    apiFetch(`${API_URLS.BASE_CRYPTOS}`, {
         method: "PATCH",
         body: JSON.stringify(data),
     });

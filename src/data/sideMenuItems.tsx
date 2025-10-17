@@ -1,17 +1,9 @@
-import {
-    BadgeIcon,
-    DashboardIcon,
-    FinancialIcon,
-    InvestmentIcon,
-    MissionIcon,
-    ReferralIcon,
-    SettingsIcon,
-    TeamIcon,
-} from "@/components/icons";
+import {DashboardIcon, FinancialIcon, InvestmentIcon, MissionIcon, SettingsIcon, TeamIcon,} from "@/components/icons";
 import {UsersIcon} from "lucide-react";
 import type {JSX} from "react";
 import PATHS from "./paths";
 import PERMISSIONS from "./permissions";
+import ROLES from "@/data/roles.ts";
 
 type Item = {
     name: string;
@@ -34,7 +26,7 @@ const sideMenuItems: SideMenuItem[] = [
     {
         name: "dashboard",
         path: PATHS.DASHBOARD as string,
-        permissions: PERMISSIONS[PATHS.DASHBOARD],
+        permissions: PERMISSIONS[ROLES.ADMIN],
         icon: <DashboardIcon className="h-6 w-6"/>,
     },
     {
@@ -75,21 +67,34 @@ const sideMenuItems: SideMenuItem[] = [
         ],
     },
     {
-        name: "referrals",
-        path: PATHS.REFERRALS,
-        permissions: PERMISSIONS[PATHS.REFERRALS],
-        icon: <ReferralIcon className="h-6 w-6"/>,
-        // children: [
-        //   { name: 'referrals', path: PATHS.REFERRALS, permissions: PERMISSIONS[PATHS.REFERRALS] },
-        //   { name: 'referralQualifications', path: PATHS.REFERRAL_QUALIFICATIONS, permissions: PERMISSIONS[PATHS.REFERRAL_QUALIFICATIONS] },
-        // ],
+        name: "cryptos",
+        path: PATHS.CRYPTOS,
+        permissions: PERMISSIONS[PATHS.CRYPTOS],
+        icon: <TeamIcon className="h-6 w-6"/>,
     },
     {
-        name: "badges",
-        path: PATHS.BADGES,
-        permissions: PERMISSIONS[PATHS.BADGES],
-        icon: <BadgeIcon className="h-6 w-6"/>,
-    },
+        name: "employees",
+        path: PATHS.EMPLOYEES,
+        permissions: PERMISSIONS[PATHS.EMPLOYEES],
+        icon: <TeamIcon className="h-6 w-6"/>,
+    }
+    ,
+    // {
+    //     name: "referrals",
+    //     path: PATHS.REFERRALS,
+    //     permissions: PERMISSIONS[PATHS.REFERRALS],
+    //     icon: <ReferralIcon className="h-6 w-6"/>,
+    //     // children: [
+    //     //   { name: 'referrals', path: PATHS.REFERRALS, permissions: PERMISSIONS[PATHS.REFERRALS] },
+    //     //   { name: 'referralQualifications', path: PATHS.REFERRAL_QUALIFICATIONS, permissions: PERMISSIONS[PATHS.REFERRAL_QUALIFICATIONS] },
+    //     // ],
+    // },
+    // {
+    //     name: "badges",
+    //     path: PATHS.BADGES,
+    //     permissions: PERMISSIONS[PATHS.BADGES],
+    //     icon: <BadgeIcon className="h-6 w-6"/>,
+    // },
     // {
     //     name: "notifications",
     //     path: PATHS.NOTIFICATIONS,
