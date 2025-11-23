@@ -1,8 +1,9 @@
 import Layout from "@/components/layout/Layout";
 import PublicLayout from "@/components/layout/PublicLayout";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import PATHS from "@/data/paths";
-import {lazy} from "react";
-import type {RouteObject} from "react-router-dom";
+import { lazy } from "react";
+import type { RouteObject } from "react-router-dom";
 import NotFound from "../pages/NotFound";
 import InvestmentPlanPage from "@/components/forms/container/investmentPlans/components_forms_InvestmentPlansForm.tsx";
 import TaskManagementForm from "@/pages/missions/AddMission.tsx";
@@ -16,6 +17,7 @@ import Employees from "@/pages/employee/Employees.tsx";
 import AddEmployee from "@/pages/employee/AddEmployee.tsx";
 import MangeCrypto from "@/pages/cryptos/MangeCrypto.tsx";
 import CryptoManagementForm from "@/pages/cryptos/AddCryptos.tsx";
+import Unauthorized from "@/pages/Unauthorized.tsx";
 
 const ForgetPassword = lazy(() => import("../pages/auth/ForgetPassword"))
 const Login = lazy(() => import("../pages/auth/Login"))
@@ -33,110 +35,112 @@ const routes: RouteObject[] = [
         children: [
             {
                 index: true,
-                element: <Dashboard/>,
+                element: <ProtectedRoute path={PATHS.DASHBOARD}><Dashboard /></ProtectedRoute>,
             },
             {
                 path: PATHS.BADGES,
                 children: [
                     {
                         index: true,
-                        element: <Badges/>,
+                        element: <ProtectedRoute path={PATHS.BADGES}><Badges /></ProtectedRoute>,
                     },
                     {
                         path: PATHS.ADD_BADGE,
-                        element: <Badges/>,
+                        element: <ProtectedRoute path={PATHS.ADD_BADGE}><Badges /></ProtectedRoute>,
                     },
                 ]
             },
             {
                 path: PATHS.DEPOSITS,
-                element: <DepositsTable/>,
+                element: <ProtectedRoute path={PATHS.DEPOSITS}><DepositsTable /></ProtectedRoute>,
             }, {
                 path: PATHS.WITHDRAWALS,
-                element: <WithdrawalsTable/>,
+                element: <ProtectedRoute path={PATHS.WITHDRAWALS}><WithdrawalsTable /></ProtectedRoute>,
             }, {
                 path: PATHS.DAILY_TASKS,
-                element: <DailyTasks/>,
+                element: <ProtectedRoute path={PATHS.DAILY_TASKS}><DailyTasks /></ProtectedRoute>,
             },
             {
                 path: PATHS.INVESTMENT_PLANS,
-                element: <InvestmentPlans/>,
+                element: <ProtectedRoute path={PATHS.INVESTMENT_PLANS}><InvestmentPlans /></ProtectedRoute>,
 
             },
             {
                 path: `${PATHS.ADD_INVESTMENT_PLAN}/:id`,
-                element: <InvestmentPlanPage/>,
+                element: <ProtectedRoute path={PATHS.ADD_INVESTMENT_PLAN}><InvestmentPlanPage /></ProtectedRoute>,
             },
             {
                 path: PATHS.ADD_INVESTMENT_PLAN,
-                element: <InvestmentPlanPage/>,
+                element: <ProtectedRoute path={PATHS.ADD_INVESTMENT_PLAN}><InvestmentPlanPage /></ProtectedRoute>,
             },
 
             {
                 path: PATHS.MISSIONS,
-                element: <Missions/>,
+                element: <ProtectedRoute path={PATHS.MISSIONS}><Missions /></ProtectedRoute>,
             },
             {
                 path: PATHS.ADD_MISSION,
-                element: <TaskManagementForm/>,
+                element: <ProtectedRoute path={PATHS.ADD_MISSION}><TaskManagementForm /></ProtectedRoute>,
             }, {
                 path: `${PATHS.ADD_MISSION}/:id`,
-                element: <TaskManagementForm/>,
+                element: <ProtectedRoute path={PATHS.ADD_MISSION}><TaskManagementForm /></ProtectedRoute>,
             },
             {
                 path: PATHS.REFERRALS,
-                element: <Referrals/>,
+                element: <ProtectedRoute path={PATHS.REFERRALS}><Referrals /></ProtectedRoute>,
             },
             {
                 path: PATHS.USERS,
-                element: <Users/>,
+                element: <ProtectedRoute path={PATHS.USERS}><Users /></ProtectedRoute>,
             },
             {
                 path: `${PATHS.ADD_USER}/:id`,
-                element: <UserDetailsPage/>,
+                element: <ProtectedRoute path={PATHS.ADD_USER}><UserDetailsPage /></ProtectedRoute>,
             },
             {
                 path: PATHS.SETTINGS,
-                element: <SettingsPage/>,
+                element: <ProtectedRoute path={PATHS.SETTINGS}><SettingsPage /></ProtectedRoute>,
             },
             {
                 path: PATHS.TEAMS,
-                element: <Teams/>,
+                element: <ProtectedRoute path={PATHS.TEAMS}><Teams /></ProtectedRoute>,
             },
             {
                 path: `${PATHS.ADD_TEAM}/:id`,
-                element: <TeamDetails/>,
+                element: <ProtectedRoute path={PATHS.ADD_TEAM}><TeamDetails /></ProtectedRoute>,
             },
             {
                 path: PATHS.CRYPTOS,
-                element: <MangeCrypto/>,
-            },{
+                element: <ProtectedRoute path={PATHS.CRYPTOS}><MangeCrypto /></ProtectedRoute>,
+            }, {
                 path: `${PATHS.CRYPTOS}/add`,
-                element: <CryptoManagementForm/>,
-            },{
+                element: <ProtectedRoute path={PATHS.CRYPTOS}><CryptoManagementForm /></ProtectedRoute>,
+            }, {
                 path: PATHS.EMPLOYEES,
-                element: <Employees/>,
-            },{
+                element: <ProtectedRoute path={PATHS.EMPLOYEES}><Employees /></ProtectedRoute>,
+            }, {
                 path: `${PATHS.EMPLOYEES}/add`,
-                element: <AddEmployee/>,
+                element: <ProtectedRoute path={PATHS.EMPLOYEES}><AddEmployee /></ProtectedRoute>,
             }
         ],
-        element: <Layout/>,
+        element: <Layout />,
     },
     {
         path: "/",
         children: [
-            {path: PATHS.LOGIN, element: <Login/>},
-            {path: PATHS.FORGET_PASSWORD, element: <ForgetPassword/>},
+            { path: PATHS.LOGIN, element: <Login /> },
+            { path: PATHS.FORGET_PASSWORD, element: <ForgetPassword /> },
+            { path: "/unauthorized", element: <Unauthorized /> },
         ],
-        element: <PublicLayout/>,
+        element: <PublicLayout />,
     },
 
     {
         path: "*",
-        element: <NotFound/>
+        element: <NotFound />
     }
 ];
 
 
 export default routes
+

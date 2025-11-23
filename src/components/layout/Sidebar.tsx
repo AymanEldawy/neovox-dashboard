@@ -1,8 +1,46 @@
 import sideMenuItems from '@/data/sideMenuItems';
 import { ChevronDownIcon } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink, useLocation } from 'react-router-dom';
+import { useAuthStore } from '@/store/authStore';
+import type { SideMenuItem } from '@/data/sideMenuItems';
+
+/**
+ * تصفية عناصر القائمة بناءً على صلاحيات المستخدم
+ */
+const filterMenuByPermissions = (menuItems: SideMenuItem[], userRole: string): SideMenuItem[] => {
+  return menuItems
+    .filter((item) => {
+      // التحقق من أن المستخدم لديه صلاحية الوصول
+      if (item.permissions && item.permissions.length > 0) {
+        return item.permissions.includes(userRole);
+      }
+      return true;
+    })
+    .map((item) => {
+      // إذا كان العنصر لديه عناصر فرعية، تصفيتها أيضاً
+      if ('children' in item && item.children && item.children.length > 0) {
+        return {
+          ...item,
+          children: item.children.filter((child) => {
+            if (child.permissions && child.permissions.length > 0) {
+              return child.permissions.includes(userRole);
+            }
+            return true;
+          }),
+        };
+      }
+      return item;
+    })
+    .filter((item) => {
+      // إزالة المجموعات التي ليس لديها عناصر فرعية بعد التصفية
+      if ('children' in item) {
+        return item.children && item.children.length > 0;
+      }
+      return true;
+    });
+};
 
 const SidebarMenuItem = ({ item, onClose }: { item: any, onClose: () => void }) => {
   const { t } = useTranslation('sidebar');
@@ -54,6 +92,15 @@ const SidebarMenuItem = ({ item, onClose }: { item: any, onClose: () => void }) 
 };
 
 const Sidebar = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) => {
+  const { user } = useAuthStore();
+
+  // تصفية عناصر القائمة بناءً على صلاحيات المستخدم
+  const filteredMenuItems = useMemo(() => {
+    if (!user || !user.role) {
+      return sideMenuItems;
+    }
+    return filterMenuByPermissions(sideMenuItems, user.role);
+  }, [user]);
 
   return (
     <>
@@ -66,7 +113,7 @@ const Sidebar = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) 
           ${isOpen ? 'translate-x-0 ' : '-translate-x-full'} md:static md:translate-x-0 md:h-[calc(100vh-64px)]`}
       >
         <nav className="flex-1 px-4 py-6 space-y-2">
-          {sideMenuItems.map(item => (
+          {filteredMenuItems.map(item => (
             <SidebarMenuItem key={item.name} item={item} onClose={onClose} />
           ))}
         </nav>
