@@ -8,10 +8,6 @@ export const missionColumns = [
         header: 'Title',
         cell: info => info.getValue(),
     }),
-    columnHelper.accessor('description', {
-        header: 'Description',
-        cell: info => info.getValue(),
-    }),
     columnHelper.accessor('type', {
         header: 'Type',
         cell: info => info.getValue(),

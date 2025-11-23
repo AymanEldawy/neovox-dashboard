@@ -1,0 +1,22 @@
+
+version: "3.9"
+
+services:
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: parking-reservation-client
+    ports:
+      - "5174:5174"
+      - "24678:24678"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+      - VITE_DEV_SERVER_HOST=0.0.0.0
+    volumes:
+      - .:/app
+      - /app/node_modules
+    # يحافظ على جلسة تفاعلية للّوجات
+    stdin_open: true
+    tty: true

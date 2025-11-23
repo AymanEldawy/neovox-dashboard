@@ -22,8 +22,8 @@ export const createUser = (data: CreateUserDto) =>
   });
 
 // Update an existing user by ID
-export const updateUser = (id: string, data: UpdateUserDto) =>
-  apiFetch(`${API_URLS.BASE_USERS}/${id}`, {
+export const updateUser = (id: string, data:any) =>
+  apiFetch(`${API_URLS.BASE_USERS}/availableBalance/${id}`, {
     method: "PATCH",
     body: JSON.stringify(data),
   });

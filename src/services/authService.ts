@@ -2,7 +2,7 @@ import { apiFetch } from "./api";
 import API_URLS from "./apiUrlPaths";
 
 export const login = (data: { email: string; password: string }) =>
-  apiFetch(`${API_URLS.BASE_AUTH}/login`, {
+  apiFetch(`${API_URLS.BASE_AUTH}/employee/login`, {
     method: "POST",
     body: JSON.stringify(data),
   });

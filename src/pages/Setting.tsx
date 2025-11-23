@@ -330,7 +330,7 @@ const SettingsPage = () => {
                                     <input
                                         type="number"
                                         step="0.1"
-                                        value={withdrawalFee.withdrawalTax}
+                                        value={withdrawalFee?.withdrawalTax}
                                         onChange={(e) =>
                                             setWithdrawalFee({
                                                 ...withdrawalFee,
@@ -356,7 +356,7 @@ const SettingsPage = () => {
                                     <input
                                         type="number"
                                         step="0.1"
-                                        value={withdrawalFee.minWithdrawalAmount}
+                                        value={withdrawalFee?.minWithdrawalAmount}
                                         onChange={(e) =>
                                             setWithdrawalFee({
                                                 ...withdrawalFee,
@@ -377,16 +377,16 @@ const SettingsPage = () => {
                                 <p>
                                     • For $100 withdrawal: $
                                     {Math.max(
-                                        withdrawalFee.minWithdrawalAmount,
-                                        (100 * withdrawalFee.withdrawalTax) / 100
+                                        withdrawalFee?.minWithdrawalAmount,
+                                        (100 * withdrawalFee?.withdrawalTax) / 100
                                     ).toFixed(2)}{" "}
                                     fee
                                 </p>
                                 <p>
                                     • For $1000 withdrawal: $
                                     {Math.max(
-                                        withdrawalFee.minWithdrawalAmount,
-                                        (1000 * withdrawalFee.withdrawalTax) / 100
+                                        withdrawalFee?.minWithdrawalAmount,
+                                        (1000 * withdrawalFee?.withdrawalTax) / 100
                                     ).toFixed(2)}{" "}
                                     fee
                                 </p>

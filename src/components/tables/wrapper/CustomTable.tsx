@@ -12,7 +12,7 @@ import {
 import TablePagination from "./TablePagination";
 import { TableResizeBar } from "./TableResizeBar";
 import { TableSkeleton } from "./TableSkeleton";
-import { Search, Filter ,RefreshCw, ChevronUp, ChevronDown, ChevronsUpDown } from "lucide-react";
+import { Search, Filter, RefreshCw, ChevronUp, ChevronDown, ChevronsUpDown } from "lucide-react";
 
 type CustomTableProps = {
   columns: any[];
@@ -46,8 +46,8 @@ const CustomTable = ({
                        enableExport = false,
                      }: CustomTableProps) => {
   const updateSearchParams = useUpdateSearchParams();
-  const limitSearchParam = useCustomSearchParams(SEARCH_PARAMS.LIMIT);
-  const pageSearchParam = useCustomSearchParams(SEARCH_PARAMS.PAGE);
+  const limitSearchParam = +useCustomSearchParams(SEARCH_PARAMS.LIMIT) || 10;
+  const pageSearchParam = +useCustomSearchParams(SEARCH_PARAMS.PAGE) || 1;
 
   const table = useReactTable({
     columns,
@@ -59,30 +59,26 @@ const CustomTable = ({
     enableRowSelection: true,
     enableFilters: true,
     manualFiltering: true,
+    manualPagination: true,
+    pageCount: pageCount,
     getRowId: (row) => row?.id,
     onPaginationChange: (updater) => {
-      const newPagination =
-          typeof updater === "function"
-              ? updater({ pageIndex: 0, pageSize: limitSearchParam })
-              : updater;
+      const currentState = {
+        pageIndex: pageSearchParam - 1,
+        pageSize: limitSearchParam
+      };
+
+      const newPagination = typeof updater === "function" ? updater(currentState) : updater;
 
       updateSearchParams([
-        { name: SEARCH_PARAMS.PAGE, value: newPagination.pageIndex + 1 },
-        { name: SEARCH_PARAMS.LIMIT, value: newPagination.pageSize },
+        { name: SEARCH_PARAMS.PAGE, value: String(newPagination.pageIndex + 1) },
+        { name: SEARCH_PARAMS.LIMIT, value: String(newPagination.pageSize) },
       ]);
-
-      return {
-        ...newPagination,
-        pageIndex: newPagination.pageIndex + 1,
-        pageSize: limitSearchParam,
-      };
     },
-    manualPagination: true,
-    pageCount,
     state: {
       pagination: {
-        pageIndex: pageSearchParam - 1 || 0,
-        pageSize: limitSearchParam || 10,
+        pageIndex: pageSearchParam - 1,
+        pageSize: limitSearchParam,
       },
     },
     meta: { ...meta },
@@ -122,12 +118,6 @@ const CustomTable = ({
                       <RefreshCw className="w-4 h-4 text-gray-600" />
                     </button>
                 )}
-                {/*{enableExport && (*/}
-                {/*    <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">*/}
-                {/*      <Download className="w-4 h-4" />*/}
-                {/*      <span className="text-sm font-medium">Export</span>*/}
-                {/*    </button>*/}
-                {/*)}*/}
               </div>
             </div>
         )}
@@ -236,7 +226,7 @@ const CustomTable = ({
         </div>
 
         {/* Pagination */}
-        {limitSearchParam && data?.length > 0 && <TablePagination table={table} />}
+        {data?.length > 0  && <TablePagination table={table} />}
       </div>
   );
 };

@@ -19,7 +19,9 @@ const CryptoManagement: React.FC = () => {
             paperHeaderProps={{
                 name: "Cryptocurrencies",
             }}
-            showAddButton={true}
+            showAddButton={false}
+            enableEditButton={true}
+            enableViewButton={false}
         />
     );
 };

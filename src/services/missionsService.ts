@@ -4,8 +4,8 @@ import API_URLS from "./apiUrlPaths";
 import type {Task} from "@/types/type_task.ts";
 
 // Get all missions
-export const getAllMissions = () =>
-    apiFetch(`${API_URLS.BASE_MISSIONS}`, {
+export const getAllMissions = (page: number, limit: number) =>
+    apiFetch(`${API_URLS.BASE_MISSIONS}?page=${page}&limit=${limit}`, {
         method: "GET",
     });
 

@@ -1,3 +1,4 @@
+import type { CreateInvestmentPlanDto,UpdateInvestmentPlanDto } from "@/types/types_investmentPlans";
 import {apiFetch} from "./api";
 import API_URLS from "./apiUrlPaths";
 
@@ -12,13 +13,13 @@ export const getInvestmentPlanById = (id: string) =>
     });
 
 // @ts-ignore
-export const createInvestmentPlan = (data) =>
+export const createInvestmentPlan = (data:CreateInvestmentPlanDto) =>
     apiFetch(`${API_URLS.BASE_INVESTMENT_PLANS}`, {
         method: "POST",
         body: JSON.stringify(data),
     });
 // @ts-ignore
-export const updateInvestmentPlan = (id: string, data) =>
+export const updateInvestmentPlan = (id: string, data:UpdateInvestmentPlanDto) =>
     apiFetch(`${API_URLS.BASE_INVESTMENT_PLANS}/${id}`, {
         method: "PATCH",
         body: JSON.stringify(data),
