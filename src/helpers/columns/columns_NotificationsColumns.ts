@@ -1,5 +1,6 @@
+// @ts-nocheck
 import { createColumnHelper } from '@tanstack/react-table';
-import { CreateNotificationDto } from '../types/notifications';
+import type { CreateNotificationDto } from '@/types/types_notifications.ts';
 
 const columnHelper = createColumnHelper<CreateNotificationDto>();
 

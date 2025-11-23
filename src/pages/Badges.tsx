@@ -155,11 +155,11 @@ const BadgesManagement: React.FC = () => {
                 requiredPoints: formData.requiredPoints,
             };
 
-            if (editingBadge) {
+            if (editingBadge && editingBadge.id) {
                 await updateBadge(editingBadge.id, payload);
                 setSuccessMessage("Badge updated successfully!");
             } else {
-                await createBadge(payload);
+                await createBadge(payload as CreateBadgeDto);
                 setSuccessMessage("Badge created successfully!");
             }
             await fetchBadges(); // Refresh all badges after create/update
@@ -328,7 +328,7 @@ const BadgesManagement: React.FC = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         {filteredBadges.map((badge) => {
                             const Icon = getIcon(badge.icon);
-                            const rarity = rarityConfig[badge.rarity] || rarityConfig.common;
+                            const rarity = rarityConfig[badge.rarity as keyof typeof rarityConfig] || rarityConfig.common;
 
                             return (
                                 <div
@@ -337,11 +337,11 @@ const BadgesManagement: React.FC = () => {
                                 >
                                     {/* Badge Header */}
                                     <div className={`${rarity.bg} p-6 flex flex-col items-center relative`}>
-                    <span
-                        className={`absolute top-2 right-2 px-3 py-1 ${rarity.bg} ${rarity.text} rounded-full text-xs font-bold uppercase border ${rarity.border}`}
-                    >
-                      {badge.rarity}
-                    </span>
+                                        <span
+                                            className={`absolute top-2 right-2 px-3 py-1 ${rarity.bg} ${rarity.text} rounded-full text-xs font-bold uppercase border ${rarity.border}`}
+                                        >
+                                            {badge.rarity}
+                                        </span>
                                         <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg mb-3">
                                             <Icon className={`w-10 h-10 ${rarity.text}`} />
                                         </div>
@@ -369,7 +369,7 @@ const BadgesManagement: React.FC = () => {
                                                 Edit
                                             </button>
                                             <button
-                                                onClick={() => handleDelete(badge.id)}
+                                                onClick={() => badge.id && handleDelete(badge.id)}
                                                 className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition"
                                             >
                                                 <Trash2 className="w-4 h-4" />
@@ -457,11 +457,10 @@ const BadgesManagement: React.FC = () => {
                                                     <button
                                                         key={option.value}
                                                         onClick={() => setFormData({ ...formData, icon: option.value })}
-                                                        className={`p-4 border-2 rounded-xl transition ${
-                                                            formData.icon === option.value
+                                                        className={`p-4 border-2 rounded-xl transition ${formData.icon === option.value
                                                                 ? "border-purple-500 bg-purple-50"
                                                                 : "border-gray-200 hover:border-purple-300"
-                                                        }`}
+                                                            }`}
                                                     >
                                                         <Icon className="w-6 h-6 mx-auto text-purple-600" />
                                                     </button>

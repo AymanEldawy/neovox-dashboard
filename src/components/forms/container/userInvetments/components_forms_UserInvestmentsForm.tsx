@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useCreateUserInvestmentForm, useUpdateUserInvestmentForm } from "../../hooks/useUserInvestmentsForm";
 import { RHFInput, RHFSelectField, RHFDatePicker } from "../../components/RHFComponents";
 

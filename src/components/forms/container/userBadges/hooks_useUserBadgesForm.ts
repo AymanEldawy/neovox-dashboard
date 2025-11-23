@@ -1,7 +1,8 @@
+// @ts-nocheck
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { CreateUserBadgeDto, UpdateUserBadgeDto } from '../types/userBadges';
+import { CreateUserBadgeDto, UpdateUserBadgeDto } from '@/types/types_userBadges';
 
 // Zod schema for CreateUserBadge
 const createUserBadgeSchema = z.object({

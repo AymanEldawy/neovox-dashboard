@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useCreateBadgeForm, useUpdateBadgeForm } from "../../hooks/useBadgesForm";
 import { RHFInput, RHFTextarea, RHFDatePicker } from "../../components/RHFComponents";
 

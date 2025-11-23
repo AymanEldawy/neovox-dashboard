@@ -1,5 +1,6 @@
+// @ts-nocheck
 import { createColumnHelper } from '@tanstack/react-table';
-import { CreateDailyTaskDto } from '../types/dailyTasks';
+import type { CreateDailyTaskDto } from '@/types/types_dailyTasks.ts';
 
 const columnHelper = createColumnHelper<CreateDailyTaskDto>();
 

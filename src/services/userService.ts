@@ -1,4 +1,4 @@
-import type { CreateUserDto, UpdateUserDto } from "@/types/types_users";
+import type { CreateUserDto } from "@/types/types_users";
 import { apiFetch } from "./api";
 import API_URLS from "./apiUrlPaths";
 
@@ -22,7 +22,7 @@ export const createUser = (data: CreateUserDto) =>
   });
 
 // Update an existing user by ID
-export const updateUser = (id: string, data:any) =>
+export const updateUser = (id: string, data: any) =>
   apiFetch(`${API_URLS.BASE_USERS}/availableBalance/${id}`, {
     method: "PATCH",
     body: JSON.stringify(data),

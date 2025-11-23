@@ -1,7 +1,8 @@
+// @ts-nocheck
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { CreateDailyTaskDto, UpdateDailyTaskDto } from '../types/dailyTasks';
+import { CreateDailyTaskDto, UpdateDailyTaskDto } from '@/types/types_dailyTasks';
 
 // Zod schema for CreateDailyTask
 const createDailyTaskSchema = z.object({

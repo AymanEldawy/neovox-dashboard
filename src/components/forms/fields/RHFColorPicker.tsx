@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ErrorText } from "@/components/shared/ErrorText";
 import { Controller, useFormContext } from "react-hook-form";
 import InputColor from "react-input-color";

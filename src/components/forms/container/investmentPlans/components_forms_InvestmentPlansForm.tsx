@@ -1,19 +1,19 @@
-import {useEffect, useState} from "react";
-import {ArrowLeft, CheckCircle, Save,} from "lucide-react";
-import {createInvestmentPlan, getInvestmentPlanById, updateInvestmentPlan,} from '@/services/investmentPlansService.ts';
-import {useNavigate, useParams} from 'react-router-dom';
-import {InvestmentPlan} from "@/types/types_investmentPlans";
-import {aiIcons, tierOptions} from "@/pages/investment-plans/utils";
-import {BasicInformation} from "@/pages/investment-plans/BasicInformation";
-import {InvestmentDetails} from "@/pages/investment-plans/InvestmentDetails";
-import {TaskRequirements} from "@/pages/investment-plans/TaskRequirements";
-import {SettingsSidebar} from "@/pages/investment-plans/SettingsSidebar";
-import {CreditLimits} from "@/pages/investment-plans/CreditLimits.tsx";
+import { useEffect, useState } from "react";
+import { ArrowLeft, CheckCircle, Save, } from "lucide-react";
+import { createInvestmentPlan, getInvestmentPlanById, updateInvestmentPlan, } from '@/services/investmentPlansService.ts';
+import { useNavigate, useParams } from 'react-router-dom';
+import { InvestmentPlan } from "@/types/types_investmentPlans";
+import { aiIcons, tierOptions } from "@/pages/investment-plans/utils";
+import { BasicInformation } from "@/pages/investment-plans/BasicInformation";
+import { InvestmentDetails } from "@/pages/investment-plans/InvestmentDetails";
+import { TaskRequirements } from "@/pages/investment-plans/TaskRequirements";
+import { SettingsSidebar } from "@/pages/investment-plans/SettingsSidebar";
+import { CreditLimits } from "@/pages/investment-plans/CreditLimits.tsx";
 
 
 // Custom hook for form logic
 const useInvestmentPlanForm = () => {
-    const {id} = useParams<{ id?: string }>();
+    const { id } = useParams<{ id?: string }>();
     const [formData, setFormData] = useState<InvestmentPlan>(new InvestmentPlan());
     const [errors, setErrors] = useState({});
     const [showDialog, setShowDialog] = useState(false);
@@ -36,7 +36,7 @@ const useInvestmentPlanForm = () => {
                 }
                 setFormData(new InvestmentPlan(parsedData));
             }).catch((err) => {
-                setErrors({fetch: err.message});
+                setErrors({ fetch: err.message });
             });
         }
     }, [id, isEditMode]);
@@ -47,7 +47,7 @@ const useInvestmentPlanForm = () => {
     ) => {
         // @ts-ignore
         setFormData(prev => {
-            const updated = {...prev, [field]: value};
+            const updated = { ...prev, [field]: value };
             Object.setPrototypeOf(updated, InvestmentPlan.prototype);
             return updated;
         });
@@ -61,7 +61,7 @@ const useInvestmentPlanForm = () => {
         setFormData((prev) => {
             const updated = {
                 ...prev,
-                requirements: {...prev.requirements, [field]: value},
+                requirements: { ...prev.requirements, [field]: value },
             };
             Object.setPrototypeOf(updated, InvestmentPlan.prototype);
             return updated;
@@ -71,13 +71,13 @@ const useInvestmentPlanForm = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         const dto = formData.toDto();
-       isEditMode ? console.log(JSON.stringify(dto,null,2)) : console.log('Create');
+        isEditMode ? console.log(JSON.stringify(dto, null, 2)) : console.log('Create');
 
-        const serviceCall = isEditMode ? updateInvestmentPlan(id, dto) : createInvestmentPlan(dto);
+        const serviceCall = isEditMode ? updateInvestmentPlan(id, dto) : createInvestmentPlan(dto as any);
         serviceCall.then(() => {
             setShowDialog(true);
         }).catch((err) => {
-            setErrors({submit: err.message});
+            setErrors({ submit: err.message });
         });
     };
 
@@ -104,7 +104,7 @@ const useInvestmentPlanForm = () => {
     };
 };
 
-const ActionButtons = ({handleSubmit, handleCancel, isEditMode}: {
+const ActionButtons = ({ handleSubmit, handleCancel, isEditMode }: {
     handleSubmit: (e: React.FormEvent) => void;
     handleCancel: () => void;
     isEditMode: boolean;
@@ -114,7 +114,7 @@ const ActionButtons = ({handleSubmit, handleCancel, isEditMode}: {
             onClick={handleSubmit}
             className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold py-4 rounded-xl hover:from-indigo-700 hover:to-purple-700 transition shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
         >
-            <Save className="w-5 h-5"/>
+            <Save className="w-5 h-5" />
             {isEditMode ? "Update Investment Plan" : "Save Investment Plan"}
         </button>
         <button
@@ -149,7 +149,7 @@ const InvestmentPlanForm = () => {
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
                             <button className="p-2 hover:bg-white/20 rounded-lg transition" onClick={handleCancel}>
-                                <ArrowLeft className="w-6 h-6"/>
+                                <ArrowLeft className="w-6 h-6" />
                             </button>
                             <div>
                                 <h1 className="text-4xl font-bold mb-2">
@@ -172,7 +172,7 @@ const InvestmentPlanForm = () => {
                     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                         <div className="bg-white rounded-xl p-6 max-w-sm w-full">
                             <div className="flex items-center gap-3 mb-4">
-                                <CheckCircle className="w-6 h-6 text-green-600"/>
+                                <CheckCircle className="w-6 h-6 text-green-600" />
                                 <h3 className="text-lg font-semibold text-gray-800">Success</h3>
                             </div>
                             <p className="text-gray-600 mb-6">Investment

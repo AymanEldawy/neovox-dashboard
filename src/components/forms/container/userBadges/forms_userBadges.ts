@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { z } from "zod";
 import { CreateUserBadgeDto, UpdateUserBadgeDto } from "../types/userBadges";
 

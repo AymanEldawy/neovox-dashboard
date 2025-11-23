@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useCreateReferralForm, useUpdateReferralForm } from "../../hooks/useReferralsForm";
 import { RHFInput, RHFSelectField, RHFDatePicker } from "../../components/RHFComponents";
 

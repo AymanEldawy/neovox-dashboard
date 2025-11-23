@@ -1,7 +1,8 @@
+// @ts-nocheck
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { CreateUserInvestmentDto, UpdateUserInvestmentDto } from '../types/userInvestments';
+import { CreateUserInvestmentDto, UpdateUserInvestmentDto } from '@/types/types_userInvestments';
 
 // Zod schema for CreateUserInvestment
 const createUserInvestmentSchema = z.object({

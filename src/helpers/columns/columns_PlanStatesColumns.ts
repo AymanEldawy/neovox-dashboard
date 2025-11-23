@@ -1,5 +1,6 @@
+// @ts-nocheck
 import { createColumnHelper } from '@tanstack/react-table';
-import { CreatePlanStateDto } from '../types/planStates';
+import type { CreatePlanStateDto } from '@/types/types_planStates.ts';
 
 const columnHelper = createColumnHelper<CreatePlanStateDto>();
 

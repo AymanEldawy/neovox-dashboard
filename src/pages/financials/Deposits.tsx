@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 import {
     AlertCircle,
     Calendar,
@@ -16,12 +16,10 @@ import {
     User,
     X,
     XCircle,
-    ZoomIn,
-    ZoomOut,
 } from "lucide-react";
-import {approveDeposit, getAllDeposits, rejectDeposit} from "@/services/depositsService.ts";
-import type {DepositDto,} from "@/types/types_deposit.ts";
-import type {FinancialsStatus, StatusConfig} from "@/types/StatusConfig.ts";
+import { approveDeposit, getAllDeposits, rejectDeposit } from "@/services/depositsService.ts";
+import type { DepositDto, } from "@/types/types_deposit.ts";
+import type { FinancialsStatus, StatusConfig } from "@/types/StatusConfig.ts";
 
 const DepositsTable = () => {
     const [deposits, setDeposits] = useState<DepositDto[]>([]);
@@ -29,8 +27,8 @@ const DepositsTable = () => {
     const [showModal, setShowModal] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [statusFilter, setStatusFilter] = useState("all");
-    const [isZoomEnabled, setIsZoomEnabled] = useState(true);
-    const [zoomPosition, setZoomPosition] = useState({x: 0, y: 0});
+    const [isZoomEnabled] = useState(true);
+    const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
     const imageRef = useRef<HTMLImageElement>(null);
 
     useEffect(() => {
@@ -47,14 +45,14 @@ const DepositsTable = () => {
     const handleApprove = async (depositId: string) => {
         await approveDeposit(depositId);
         setDeposits((prev) =>
-            prev.map((d) => (d.id === depositId ? {...d, status: "confirmed"} : d))
+            prev.map((d) => (d.id === depositId ? { ...d, status: "confirmed" } : d))
         );
     };
 
     const handleReject = async (depositId: string) => {
         await rejectDeposit(depositId);
         setDeposits((prev) =>
-            prev.map((d) => (d.id === depositId ? {...d, status: "rejected"} : d))
+            prev.map((d) => (d.id === depositId ? { ...d, status: "rejected" } : d))
         );
     };
 
@@ -122,7 +120,7 @@ const DepositsTable = () => {
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
 
-        setZoomPosition({x, y});
+        setZoomPosition({ x, y });
     };
 
     return (
@@ -144,7 +142,7 @@ const DepositsTable = () => {
                     <div className="bg-white rounded-xl shadow-lg p-6">
                         <div className="flex items-center justify-between mb-2">
                             <p className="text-gray-600 text-sm font-medium">Total</p>
-                            <FileText className="w-5 h-5 text-gray-400"/>
+                            <FileText className="w-5 h-5 text-gray-400" />
                         </div>
                         <p className="text-3xl font-bold text-gray-800">{stats.total}</p>
                     </div>
@@ -152,7 +150,7 @@ const DepositsTable = () => {
                     <div className="bg-white rounded-xl shadow-lg p-6">
                         <div className="flex items-center justify-between mb-2">
                             <p className="text-gray-600 text-sm font-medium">Pending</p>
-                            <Clock className="w-5 h-5 text-yellow-500"/>
+                            <Clock className="w-5 h-5 text-yellow-500" />
                         </div>
                         <p className="text-3xl font-bold text-yellow-600">{stats.pending}</p>
                     </div>
@@ -160,7 +158,7 @@ const DepositsTable = () => {
                     <div className="bg-white rounded-xl shadow-lg p-6">
                         <div className="flex items-center justify-between mb-2">
                             <p className="text-gray-600 text-sm font-medium">Confirmed</p>
-                            <CheckCircle className="w-5 h-5 text-green-500"/>
+                            <CheckCircle className="w-5 h-5 text-green-500" />
                         </div>
                         <p className="text-3xl font-bold text-green-600">{stats.confirmed}</p>
                     </div>
@@ -168,7 +166,7 @@ const DepositsTable = () => {
                     <div className="bg-white rounded-xl shadow-lg p-6">
                         <div className="flex items-center justify-between mb-2">
                             <p className="text-gray-600 text-sm font-medium">Rejected</p>
-                            <XCircle className="w-5 h-5 text-red-500"/>
+                            <XCircle className="w-5 h-5 text-red-500" />
                         </div>
                         <p className="text-3xl font-bold text-red-600">{stats.rejected}</p>
                     </div>
@@ -176,7 +174,7 @@ const DepositsTable = () => {
                     <div className="bg-white rounded-xl shadow-lg p-6">
                         <div className="flex items-center justify-between mb-2">
                             <p className="text-gray-600 text-sm font-medium">Total Amount</p>
-                            <TrendingUp className="w-5 h-5 text-blue-500"/>
+                            <TrendingUp className="w-5 h-5 text-blue-500" />
                         </div>
                         <p className="text-3xl font-bold text-blue-600">${stats.totalAmount}</p>
                     </div>
@@ -186,7 +184,7 @@ const DepositsTable = () => {
                 <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="relative">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"/>
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                             <input
                                 type="text"
                                 placeholder="Search by name, email, or ID..."
@@ -197,7 +195,7 @@ const DepositsTable = () => {
                         </div>
 
                         <div className="relative">
-                            <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"/>
+                            <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                             <select
                                 value={statusFilter}
                                 onChange={(e) => setStatusFilter(e.target.value)}
@@ -217,101 +215,101 @@ const DepositsTable = () => {
                     <div className="overflow-x-auto">
                         <table className="w-full">
                             <thead className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
-                            <tr>
-                                <th className="px-6 py-4 text-left text-sm font-semibold">User</th>
-                                <th className="px-6 py-4 text-left text-sm font-semibold">Amount</th>
-                                <th className="px-6 py-4 text-left text-sm font-semibold">Method</th>
-                                <th className="px-6 py-4 text-left text-sm font-semibold">Status</th>
-                                <th className="px-6 py-4 text-left text-sm font-semibold">Date</th>
-                                <th className="px-6 py-4 text-center text-sm font-semibold">Actions</th>
-                            </tr>
+                                <tr>
+                                    <th className="px-6 py-4 text-left text-sm font-semibold">User</th>
+                                    <th className="px-6 py-4 text-left text-sm font-semibold">Amount</th>
+                                    <th className="px-6 py-4 text-left text-sm font-semibold">Method</th>
+                                    <th className="px-6 py-4 text-left text-sm font-semibold">Status</th>
+                                    <th className="px-6 py-4 text-left text-sm font-semibold">Date</th>
+                                    <th className="px-6 py-4 text-center text-sm font-semibold">Actions</th>
+                                </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
-                            {filteredDeposits.map((deposit) => {
-                                const statusConfig = getStatusConfig(deposit.status);
-                                const StatusIcon = statusConfig.icon;
+                                {filteredDeposits.map((deposit) => {
+                                    const statusConfig = getStatusConfig(deposit.status);
+                                    const StatusIcon = statusConfig.icon;
 
-                                return (
-                                    <tr key={deposit.id} className="hover:bg-blue-50 transition">
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center gap-3">
-                                                <div
-                                                    className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center text-white font-bold">
-                                                    {deposit.user.firstName[0]}
+                                    return (
+                                        <tr key={deposit.id} className="hover:bg-blue-50 transition">
+                                            <td className="px-6 py-4">
+                                                <div className="flex items-center gap-3">
+                                                    <div
+                                                        className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center text-white font-bold">
+                                                        {deposit.user.firstName[0]}
+                                                    </div>
+                                                    <div>
+                                                        <p className="font-semibold text-gray-800">
+                                                            {deposit.user.firstName} {deposit.user.lastName}
+                                                        </p>
+                                                        <p className="text-sm text-gray-500">{deposit.user.email}</p>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <p className="font-semibold text-gray-800">
-                                                        {deposit.user.firstName} {deposit.user.lastName}
-                                                    </p>
-                                                    <p className="text-sm text-gray-500">{deposit.user.email}</p>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <div className="flex items-center gap-2">
+                                                    <DollarSign className="w-5 h-5 text-green-600" />
+                                                    <span
+                                                        className="font-bold text-lg text-gray-800">{deposit.amount}</span>
+                                                    <span className="text-sm text-gray-500">{deposit.currency}</span>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center gap-2">
-                                                <DollarSign className="w-5 h-5 text-green-600"/>
+                                            </td>
+                                            <td className="px-6 py-4">
                                                 <span
-                                                    className="font-bold text-lg text-gray-800">{deposit.amount}</span>
-                                                <span className="text-sm text-gray-500">{deposit.currency}</span>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <span
-                                                className="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-lg text-sm font-semibold capitalize">
-                                                {deposit.method}
-                                            </span>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <div
-                                                className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border-2 ${statusConfig.bg} ${statusConfig.text} ${statusConfig.border} font-semibold`}
-                                            >
-                                                <StatusIcon className="w-4 h-4"/>
-                                                {statusConfig.label}
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center gap-2 text-gray-600">
-                                                <Calendar className="w-4 h-4"/>
-                                                <span className="text-sm">{formatDate(deposit.createdAt)}</span>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <div className="flex items-center justify-center gap-2">
-                                                <button
-                                                    onClick={() => handleViewDetails(deposit)}
-                                                    className="p-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition"
-                                                    title="View Details"
+                                                    className="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-lg text-sm font-semibold capitalize">
+                                                    {deposit.method}
+                                                </span>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <div
+                                                    className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border-2 ${statusConfig.bg} ${statusConfig.text} ${statusConfig.border} font-semibold`}
                                                 >
-                                                    <Eye className="w-5 h-5"/>
-                                                </button>
-                                                {deposit.status === "pending" && (
-                                                    <>
-                                                        <button
-                                                            onClick={() => handleApprove(deposit.id)}
-                                                            className="p-2 bg-green-100 text-green-600 rounded-lg hover:bg-green-200 transition"
-                                                            title="Approve"
-                                                        >
-                                                            <Check className="w-5 h-5"/>
-                                                        </button>
-                                                        <button
-                                                            onClick={() => handleReject(deposit.id)}
-                                                            className="p-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition"
-                                                            title="Reject"
-                                                        >
-                                                            <X className="w-5 h-5"/>
-                                                        </button>
-                                                    </>
-                                                )}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                );
-                            })}
+                                                    <StatusIcon className="w-4 h-4" />
+                                                    {statusConfig.label}
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <div className="flex items-center gap-2 text-gray-600">
+                                                    <Calendar className="w-4 h-4" />
+                                                    <span className="text-sm">{formatDate(deposit.createdAt)}</span>
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <div className="flex items-center justify-center gap-2">
+                                                    <button
+                                                        onClick={() => handleViewDetails(deposit)}
+                                                        className="p-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition"
+                                                        title="View Details"
+                                                    >
+                                                        <Eye className="w-5 h-5" />
+                                                    </button>
+                                                    {deposit.status === "pending" && (
+                                                        <>
+                                                            <button
+                                                                onClick={() => handleApprove(deposit.id)}
+                                                                className="p-2 bg-green-100 text-green-600 rounded-lg hover:bg-green-200 transition"
+                                                                title="Approve"
+                                                            >
+                                                                <Check className="w-5 h-5" />
+                                                            </button>
+                                                            <button
+                                                                onClick={() => handleReject(deposit.id)}
+                                                                className="p-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition"
+                                                                title="Reject"
+                                                            >
+                                                                <X className="w-5 h-5" />
+                                                            </button>
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
                             </tbody>
                         </table>
                         {filteredDeposits.length === 0 && (
                             <div className="text-center py-12">
-                                <FileText className="w-16 h-16 text-gray-300 mx-auto mb-4"/>
+                                <FileText className="w-16 h-16 text-gray-300 mx-auto mb-4" />
                                 <p className="text-gray-500 text-lg">No deposits found</p>
                             </div>
                         )}
@@ -332,7 +330,7 @@ const DepositsTable = () => {
                                     onClick={() => setShowModal(false)}
                                     className="p-2 hover:bg-white/20 rounded-lg transition"
                                 >
-                                    <X className="w-6 h-6"/>
+                                    <X className="w-6 h-6" />
                                 </button>
                             </div>
                         </div>
@@ -344,7 +342,7 @@ const DepositsTable = () => {
                                     {/* Deposit ID */}
                                     <div className="bg-blue-50 rounded-xl p-5">
                                         <div className="flex items-center gap-2 mb-3">
-                                            <Hash className="w-5 h-5 text-blue-600"/>
+                                            <Hash className="w-5 h-5 text-blue-600" />
                                             <p className="text-sm font-semibold text-gray-600">Deposit ID</p>
                                         </div>
                                         <p className="text-sm text-gray-800 font-mono break-all">
@@ -355,7 +353,7 @@ const DepositsTable = () => {
                                     {/* User Info */}
                                     <div className="border-2 border-gray-200 rounded-xl p-6">
                                         <div className="flex items-center gap-2 mb-4">
-                                            <User className="w-5 h-5 text-indigo-600"/>
+                                            <User className="w-5 h-5 text-indigo-600" />
                                             <h3 className="font-bold text-lg">User Information</h3>
                                         </div>
                                         <div className="space-y-3">
@@ -377,7 +375,7 @@ const DepositsTable = () => {
                                     {/* Deposit Info */}
                                     <div className="border-2 border-gray-200 rounded-xl p-6">
                                         <div className="flex items-center gap-2 mb-4">
-                                            <DollarSign className="w-5 h-5 text-green-600"/>
+                                            <DollarSign className="w-5 h-5 text-green-600" />
                                             <h3 className="font-bold text-lg">Deposit Information</h3>
                                         </div>
                                         <div className="space-y-3">
@@ -403,7 +401,7 @@ const DepositsTable = () => {
                                                         <div
                                                             className={`flex items-center gap-2 px-3 py-1.5 rounded-lg ${statusConfig.bg} ${statusConfig.text} font-semibold`}
                                                         >
-                                                            <StatusIcon className="w-4 h-4"/>
+                                                            <StatusIcon className="w-4 h-4" />
                                                             {statusConfig.label}
                                                         </div>
                                                     );
@@ -412,7 +410,7 @@ const DepositsTable = () => {
                                             <div className="flex justify-between items-center">
                                                 <p className="text-sm text-gray-500">Date</p>
                                                 <div className="flex items-center gap-2 text-gray-700">
-                                                    <Calendar className="w-4 h-4"/>
+                                                    <Calendar className="w-4 h-4" />
                                                     <span
                                                         className="text-sm">{formatDate(selectedDeposit.createdAt)}</span>
                                                 </div>
@@ -426,7 +424,7 @@ const DepositsTable = () => {
                                     <div className="border-2 border-gray-200 rounded-xl p-6 flex-1 relative">
                                         <div className="flex items-center justify-between mb-4">
                                             <div className="flex items-center gap-2">
-                                                <ImageIcon className="w-5 h-5 text-purple-600"/>
+                                                <ImageIcon className="w-5 h-5 text-purple-600" />
                                                 <h3 className="font-bold text-lg">Receipt Image</h3>
                                             </div>
                                             {/*<button*/}
@@ -475,7 +473,7 @@ const DepositsTable = () => {
                                         }}
                                         className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold py-4 rounded-xl hover:from-green-600 hover:to-emerald-600 transition shadow-lg flex items-center justify-center gap-2"
                                     >
-                                        <Check className="w-5 h-5"/>
+                                        <Check className="w-5 h-5" />
                                         Approve Deposit
                                     </button>
                                     <button
@@ -485,7 +483,7 @@ const DepositsTable = () => {
                                         }}
                                         className="flex-1 bg-gradient-to-r from-red-500 to-pink-500 text-white font-bold py-4 rounded-xl hover:from-red-600 hover:to-pink-600 transition shadow-lg flex items-center justify-center gap-2"
                                     >
-                                        <X className="w-5 h-5"/>
+                                        <X className="w-5 h-5" />
                                         Reject Deposit
                                     </button>
                                 </div>

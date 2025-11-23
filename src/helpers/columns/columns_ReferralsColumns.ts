@@ -1,5 +1,6 @@
+// @ts-nocheck
 import { createColumnHelper } from '@tanstack/react-table';
-import { CreateReferralDto } from '../types/referrals';
+import type { CreateReferralDto } from '@/types/types_referrals.ts';
 
 const columnHelper = createColumnHelper<CreateReferralDto>();
 

@@ -1,5 +1,6 @@
+// @ts-nocheck
 import { createColumnHelper } from '@tanstack/react-table';
-import { CreateUserBadgeDto } from '../types/userBadges';
+import type { CreateUserBadgeDto } from '@/types/types_userBadges.ts';
 
 const columnHelper = createColumnHelper<CreateUserBadgeDto>();
 

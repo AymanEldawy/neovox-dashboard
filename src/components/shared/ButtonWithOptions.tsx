@@ -1,8 +1,8 @@
 import SEARCH_PARAMS from "@/data/searchParamsKeys";
-import useUpdateSearchParams from "@/hook/useUpdateSearchParams";
+import useUpdateSearchParams from "@/hooks/useUpdateSearchParams";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { PlusIcon } from "../Icons";
+import { Plus } from "lucide-react";
 import Btn from "./Btn";
 
 const ButtonWithOptions = ({ data, setOpenForm }) => {
@@ -19,7 +19,7 @@ const ButtonWithOptions = ({ data, setOpenForm }) => {
   return (
     <div className="relative">
       <Btn kind="primary" onClick={() => setOpen((p) => !p)}>
-        <PlusIcon className="w-6 h-6" circle />
+        <Plus className="w-6 h-6" />
         {t("add_new")}
       </Btn>
       {open && (

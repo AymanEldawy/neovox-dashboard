@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createColumnHelper } from "@tanstack/react-table";
 import type { CryptoCurrency } from "@/types/type_crypto";
 

@@ -1,12 +1,12 @@
-import type { Currency, Network } from "./crypto.ts";
+import type { CurrencyType, NetworkType } from "./crypto.ts";
 
 export interface CryptoCurrency {
     id?: string;
     method: string;
-    currency: Currency;
-    networks: Network[];
+    currency: CurrencyType;
+    networks: NetworkType[];
     address: {
-        [key in Network]?: {
+        [key in NetworkType]?: {
             link: string;
             maxAmount: number;
             isActive: boolean;

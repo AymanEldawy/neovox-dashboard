@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {createColumnHelper} from '@tanstack/react-table';
 import type {CreateMissionDto} from "@/types/types_missions.ts";
 

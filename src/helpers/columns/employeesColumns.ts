@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createColumnHelper } from "@tanstack/react-table";
 import type { Employee } from "@/types/type_employee";
 

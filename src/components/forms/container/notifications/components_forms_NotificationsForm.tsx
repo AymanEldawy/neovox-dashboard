@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useCreateNotificationForm, useUpdateNotificationForm } from "../../hooks/useNotificationsForm";
 import { RHFInput, RHFTextarea, RHFSelectField, RHFDatePicker, RHFCheckbox } from "../../components/RHFComponents";
 

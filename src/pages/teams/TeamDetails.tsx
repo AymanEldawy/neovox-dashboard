@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import {
     Users,
     Award,
-    TrendingUp,
     Calendar,
     Shield,
     Target,
@@ -137,18 +136,17 @@ const TeamDetailsPage: React.FC = () => {
                             </div>
                             <p className="text-white/90 text-lg mb-4">{team.description || 'No description'}</p>
                             <div className="flex items-center gap-4">
-                <span
-                    className={`px-4 py-2 rounded-full ${getTierBadge(team.tier)} font-semibold uppercase text-sm`}
-                >
-                  {team.tier}
-                </span>
                                 <span
-                                    className={`px-4 py-2 rounded-full ${
-                                        team.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                                    } font-semibold`}
+                                    className={`px-4 py-2 rounded-full ${getTierBadge(team.tier)} font-semibold uppercase text-sm`}
                                 >
-                  {team.isActive ? 'Active' : 'Inactive'}
-                </span>
+                                    {team.tier}
+                                </span>
+                                <span
+                                    className={`px-4 py-2 rounded-full ${team.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                                        } font-semibold`}
+                                >
+                                    {team.isActive ? 'Active' : 'Inactive'}
+                                </span>
                             </div>
                         </div>
                         <div className="text-right">
@@ -289,8 +287,8 @@ const TeamDetailsPage: React.FC = () => {
                                         team.leader.currentTier
                                     )}`}
                                 >
-                  {team.leader.currentTier}
-                </span>
+                                    {team.leader.currentTier}
+                                </span>
                             </div>
 
                             <div className="space-y-3 border-t pt-4">

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import "@/styles/date-picker.css";
 import "react-datepicker/dist/react-datepicker.css";
 

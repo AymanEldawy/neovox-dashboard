@@ -1,5 +1,5 @@
 import { Switch } from '@/components/forms/fields';
-import { CloseIcon } from '@/components/Icons';
+import { X } from 'lucide-react';
 import Btn from '@/components/shared/Btn';
 import Modal from '@/components/shared/Modal'
 import { useTranslation } from 'react-i18next';
@@ -22,7 +22,7 @@ const TableColumnVisibility = ({ open, name, onClose, table }) => {
             kind="error"
             onClick={onClose}
           >
-            <CloseIcon className="w-6 h-6" />
+            <X className="w-6 h-6" />
           </Btn>
         </div>
         <ul className="flex flex-col">

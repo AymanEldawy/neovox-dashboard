@@ -14,7 +14,7 @@ const statusOptions = [
 ];
 
 export const UserMissionsForm = ({ isUpdate = false }: UserMissionsFormProps) => {
-  const { handleSubmit, formState } = useForm<UserMissionFormData>({
+  const { handleSubmit } = useForm<UserMissionFormData>({
     resolver: zodResolver(userMissionSchema),
     defaultValues: userMissionDefaultValues,
   });

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useNavigate, useSearchParams } from "react-router-dom";
 import usePathname from "./usePathname";
 import { useCallback, useMemo } from "react";

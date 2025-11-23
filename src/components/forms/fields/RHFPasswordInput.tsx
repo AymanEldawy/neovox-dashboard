@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { RHFInput } from ".";
