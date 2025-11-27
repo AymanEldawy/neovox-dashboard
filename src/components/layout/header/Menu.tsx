@@ -1,10 +1,22 @@
 import { WEBSITE_NAME } from "@/data/constants";
 import { Link } from "react-router-dom";
 import { IconsBar } from "./IconsBar";
+import { useEffect, useState } from "react";
 
 const Menu = ({ setSidebarOpen, withoutContainer = false, hideLinks = false }: { setSidebarOpen?: (value: boolean) => void, withoutContainer?: boolean, hideLinks?: boolean }) => {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <header className="bg-white flex items-center justify-between border-b-2 border-gray-200 py-3 h-16">
+    <header className={`sticky top-0 z-50 bg-white flex items-center justify-between border-b-2 border-gray-200 py-3 h-16 transition-shadow duration-300 ${isScrolled ? 'shadow-md' : ''}`}>
       <div className={withoutContainer ? "w-full px-6" : "container"}>
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-4">

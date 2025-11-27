@@ -14,15 +14,15 @@ export const getCryptoById = (id: string) =>
     });
 
 // Create a new cryptocurrency
-export const createCrypto = (data:any) =>
+export const createCrypto = (data: any) =>
     apiFetch(`${API_URLS.BASE_CRYPTOS}`, {
         method: "POST",
         body: JSON.stringify(data),
     });
 
 // Update an existing cryptocurrency by ID
-export const updateCrypto = ( data: any) =>
-    apiFetch(`${API_URLS.BASE_CRYPTOS}`, {
+export const updateCrypto = (id: string, data: any) =>
+    apiFetch(`${API_URLS.BASE_CRYPTOS}/${id}`, {
         method: "PATCH",
         body: JSON.stringify(data),
     });

@@ -1,8 +1,8 @@
-import {apiFetch} from "./api";
+import { apiFetch } from "./api";
 import API_URLS from "./apiUrlPaths";
 
-export const getAllWithdrawals = () =>
-    apiFetch(`${API_URLS.BASE_WITHDRAWALS}`, {
+export const getAllWithdrawals = (page: number = 1, limit: number = 10) =>
+    apiFetch(`${API_URLS.BASE_WITHDRAWALS}?page=${page}&limit=${limit}`, {
         method: "GET",
     });
 

@@ -530,75 +530,121 @@ export const CreditLimits = ({
     value: InvestmentPlan[K]
   ) => void;
 }) => {
-  // حدد الإجراء النشط من البيانات
-  const determineActiveAction = (): ActiveAction => {
-    if (formData.actions?.skip) return "skip";
-    if (formData.actions?.boost) return "boost";
-    return null;
-  };
+  // تتبع حالة كل action بشكل مستقل
+  const [skipEnabled, setSkipEnabled] = useState<boolean>(() => !!formData.actions?.skip);
+  const [boostEnabled, setBoostEnabled] = useState<boolean>(() => !!formData.actions?.boost);
 
-  const [activeAction, setActiveAction] = useState<ActiveAction>(determineActiveAction());
+  // تتبع حالة كل نوع boost بشكل مستقل
+  const [roiEnabled, setRoiEnabled] = useState<boolean>(() =>
+    formData.actions?.boost?.roiBoost !== undefined
+  );
+  const [timeEnabled, setTimeEnabled] = useState<boolean>(() =>
+    formData.actions?.boost?.timeReduction !== undefined
+  );
 
-  // قيم boost أرقام مباشرة الآن
   const [roiValue, setRoiValue] = useState<number>(() => {
-    return formData.actions?.boost?.roiBoost ?? 0;
+    return formData.actions?.boost?.roiBoost ?? 1;
   });
 
   const [timeValue, setTimeValue] = useState<number>(() => {
     return formData.actions?.boost?.timeReduction ?? 1;
   });
 
-  const [boostType, setBoostType] = useState<BoostType>(() => {
-    if (formData.actions?.boost?.roiBoost !== undefined) return "roi";
-    if (formData.actions?.boost?.timeReduction !== undefined) return "time";
-    return "roi";
-  });
-
   // تحدّث الحالة عند قدوم بيانات من الـ API
   useEffect(() => {
-    const newActive = determineActiveAction();
-    setActiveAction(newActive);
+    setSkipEnabled(!!formData.actions?.skip);
+    setBoostEnabled(!!formData.actions?.boost);
 
     if (formData.actions?.boost) {
       const hasRoi = formData.actions.boost.roiBoost !== undefined;
       const hasTime = formData.actions.boost.timeReduction !== undefined;
 
-      setBoostType(hasRoi ? "roi" : hasTime ? "time" : "roi");
+      setRoiEnabled(hasRoi);
+      setTimeEnabled(hasTime);
 
       if (hasRoi) setRoiValue(formData.actions.boost.roiBoost as number);
       if (hasTime) setTimeValue(formData.actions.boost.timeReduction as number);
     }
   }, [formData.actions]);
 
-  const handleActionToggle = (actionType: Exclude<ActiveAction, null>) => {
-    if (activeAction === actionType) {
-      setActiveAction(null);
-      handleInputChange("actions", undefined);
-    } else {
-      setActiveAction(actionType);
-      if (actionType === "skip") {
-        handleInputChange("actions", {
-          skip: {
-            cost: 2,
-            effect: "Skip one daily task without penalty",
-          },
-        } as any);
-      } else {
-        // boost افتراضيًا نفعّل ROI
-        setBoostType("roi");
-        setRoiValue(1);
-        setTimeValue(1);
+  const handleSkipToggle = () => {
+    const newSkipEnabled = !skipEnabled;
+    setSkipEnabled(newSkipEnabled);
 
-        handleInputChange("actions", {
-          boost: {
-            cost: 3,
-            effect: "Increase ROI temporarily",
-            roiBoost: 1,           // number
-            timeReduction: undefined, // معطّل
-          },
-        } as any);
-      }
+    const updatedActions: any = { ...formData.actions };
+
+    if (newSkipEnabled) {
+      updatedActions.skip = {
+        cost: 2,
+        effect: "Skip one daily task without penalty",
+      };
+    } else {
+      delete updatedActions.skip;
     }
+
+    // إذا لم يكن هناك أي actions، نرسل undefined
+    const finalActions = Object.keys(updatedActions).length > 0 ? updatedActions : undefined;
+    handleInputChange("actions", finalActions);
+  };
+
+  const handleBoostToggle = () => {
+    const newBoostEnabled = !boostEnabled;
+    setBoostEnabled(newBoostEnabled);
+
+    const updatedActions: any = { ...formData.actions };
+
+    if (newBoostEnabled) {
+      // تفعيل boost مع ROI افتراضياً
+      setRoiEnabled(true);
+      setTimeEnabled(false);
+      updatedActions.boost = {
+        cost: 3,
+        effect: "Increase ROI or reduce time",
+        roiBoost: roiValue,
+        timeReduction: undefined,
+      };
+    } else {
+      delete updatedActions.boost;
+      setRoiEnabled(false);
+      setTimeEnabled(false);
+    }
+
+    const finalActions = Object.keys(updatedActions).length > 0 ? updatedActions : undefined;
+    handleInputChange("actions", finalActions);
+  };
+
+  const handleRoiToggle = () => {
+    if (!boostEnabled) return;
+
+    const newRoiEnabled = !roiEnabled;
+    setRoiEnabled(newRoiEnabled);
+
+    const updatedActions: any = { ...formData.actions };
+    if (updatedActions.boost) {
+      updatedActions.boost = {
+        ...updatedActions.boost,
+        roiBoost: newRoiEnabled ? roiValue : undefined,
+      };
+    }
+
+    handleInputChange("actions", updatedActions);
+  };
+
+  const handleTimeToggle = () => {
+    if (!boostEnabled) return;
+
+    const newTimeEnabled = !timeEnabled;
+    setTimeEnabled(newTimeEnabled);
+
+    const updatedActions: any = { ...formData.actions };
+    if (updatedActions.boost) {
+      updatedActions.boost = {
+        ...updatedActions.boost,
+        timeReduction: newTimeEnabled ? timeValue : undefined,
+      };
+    }
+
+    handleInputChange("actions", updatedActions);
   };
 
   const handleActionFieldChange = (
@@ -619,31 +665,16 @@ export const CreditLimits = ({
     handleInputChange("actions", updatedActions);
   };
 
-  const handleBoostTypeChange = (type: BoostType) => {
-    setBoostType(type);
-    if (!formData.actions?.boost) return;
-
-    const updated = {
-      boost: {
-        ...formData.actions.boost,
-        roiBoost: type === "roi" ? roiValue : undefined,
-        timeReduction: type === "time" ? timeValue : undefined,
-      },
-    } as any;
-
-    handleInputChange("actions", updated);
-  };
-
   const handleRoiChange = (value: number) => {
-    const rounded = Math.max(0, Math.round(value * 10) / 10); // خطوة 0.1
+    const rounded = Math.max(0, Math.round(value * 10) / 10);
     setRoiValue(rounded);
-    if (!formData.actions?.boost) return;
+    if (!formData.actions?.boost || !roiEnabled) return;
 
     const updated = {
+      ...formData.actions,
       boost: {
         ...formData.actions.boost,
-        roiBoost: rounded,         // number
-        timeReduction: boostType === "time" ? timeValue : formData.actions.boost.timeReduction,
+        roiBoost: rounded,
       },
     } as any;
 
@@ -653,13 +684,13 @@ export const CreditLimits = ({
   const handleTimeChange = (value: number) => {
     const intVal = Math.max(1, Math.round(value));
     setTimeValue(intVal);
-    if (!formData.actions?.boost) return;
+    if (!formData.actions?.boost || !timeEnabled) return;
 
     const updated = {
+      ...formData.actions,
       boost: {
         ...formData.actions.boost,
-        timeReduction: intVal,     // number
-        roiBoost: boostType === "roi" ? roiValue : formData.actions.boost.roiBoost,
+        timeReduction: intVal,
       },
     } as any;
 
@@ -736,48 +767,37 @@ export const CreditLimits = ({
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2">
             <Zap className="w-5 h-5 text-purple-600" />
-            Actions (Select one only)
+            Actions (Can select multiple)
           </h3>
           <div className="flex items-center gap-2">
-            {activeAction && (
-              <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                Current:{" "}
-                {activeAction === "skip"
-                  ? "Skip"
-                  : boostType === "roi"
-                  ? "ROI Boost"
-                  : "Time Reduction"}
+            {skipEnabled && (
+              <span className="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded font-semibold">
+                Skip ✓
               </span>
             )}
-            <span
-              className={`text-sm font-semibold px-3 py-1 rounded-full ${
-                activeAction === "skip"
-                  ? "bg-orange-100 text-orange-700"
-                  : activeAction === "boost"
-                  ? "bg-green-100 text-green-700"
-                  : "bg-gray-100 text-gray-500"
-              }`}
-            >
-              {activeAction === "skip"
-                ? "Skip Active"
-                : activeAction === "boost"
-                ? "Boost Active"
-                : "No Action"}
-            </span>
+            {boostEnabled && (
+              <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded font-semibold">
+                Boost ✓
+              </span>
+            )}
+            {!skipEnabled && !boostEnabled && (
+              <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded">
+                No Actions
+              </span>
+            )}
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Skip Action Card */}
           <div
-            className={`border-2 rounded-xl p-5 transition cursor-pointer relative ${
-              activeAction === "skip"
+            className={`border-2 rounded-xl p-5 transition cursor-pointer relative ${skipEnabled
                 ? "border-orange-500 bg-orange-50 ring-2 ring-orange-200"
                 : "border-gray-200 hover:border-orange-300"
-            }`}
-            onClick={() => handleActionToggle("skip")}
+              }`}
+            onClick={handleSkipToggle}
           >
-            {activeAction === "skip" && (
+            {skipEnabled && (
               <div className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg">
                 ACTIVE
               </div>
@@ -793,15 +813,14 @@ export const CreditLimits = ({
                 </div>
               </div>
               <div
-                className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
-                  activeAction === "skip" ? "border-orange-500 bg-orange-500" : "border-gray-300"
-                }`}
+                className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${skipEnabled ? "border-orange-500 bg-orange-500" : "border-gray-300"
+                  }`}
               >
-                {activeAction === "skip" && <div className="w-2.5 h-2.5 bg-white rounded-full" />}
+                {skipEnabled && <div className="w-2.5 h-2.5 bg-white rounded-full" />}
               </div>
             </div>
 
-            {activeAction === "skip" && (
+            {skipEnabled && (
               <div className="space-y-3 mt-3" onClick={(e) => e.stopPropagation()}>
                 <div>
                   <label className="text-xs font-semibold text-gray-700 mb-1 block">
@@ -835,11 +854,15 @@ export const CreditLimits = ({
 
           {/* Boost Action Card */}
           <div
-            className={`border-2 rounded-xl p-5 transition cursor-pointer ${
-              activeAction === "boost" ? "border-green-500 bg-green-50" : "border-gray-200 hover:border-green-300"
-            }`}
-            onClick={() => handleActionToggle("boost")}
+            className={`border-2 rounded-xl p-5 transition cursor-pointer relative ${boostEnabled ? "border-green-500 bg-green-50 ring-2 ring-green-200" : "border-gray-200 hover:border-green-300"
+              }`}
+            onClick={handleBoostToggle}
           >
+            {boostEnabled && (
+              <div className="absolute -top-2 -right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg">
+                ACTIVE
+              </div>
+            )}
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <div className="p-2 bg-green-100 rounded-lg">
@@ -847,19 +870,18 @@ export const CreditLimits = ({
                 </div>
                 <div>
                   <h4 className="font-bold text-gray-800 text-sm">Boost Action</h4>
-                  <p className="text-xs text-gray-500">Increase ROI or reduce time</p>
+                  <p className="text-xs text-gray-500">Increase ROI and/or reduce time</p>
                 </div>
               </div>
               <div
-                className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
-                  activeAction === "boost" ? "border-green-500 bg-green-500" : "border-gray-300"
-                }`}
+                className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${boostEnabled ? "border-green-500 bg-green-500" : "border-gray-300"
+                  }`}
               >
-                {activeAction === "boost" && <div className="w-2.5 h-2.5 bg-white rounded-full" />}
+                {boostEnabled && <div className="w-2.5 h-2.5 bg-white rounded-full" />}
               </div>
             </div>
 
-            {activeAction === "boost" && (
+            {boostEnabled && (
               <div className="space-y-3 mt-3" onClick={(e) => e.stopPropagation()}>
                 <div>
                   <label className="text-xs font-semibold text-gray-700 mb-1 block">
@@ -884,29 +906,36 @@ export const CreditLimits = ({
                     onChange={(e) => handleActionFieldChange("boost", "effect", e.target.value)}
                     rows={2}
                     className="w-full px-3 py-2 text-sm border-2 border-gray-200 rounded-lg focus:border-green-500 focus:outline-none transition resize-none"
-                    placeholder="e.g., Increase ROI"
+                    placeholder="e.g., Increase ROI or reduce time"
                   />
                 </div>
 
-                {/* Boost Type Selection */}
+                {/* Boost Type Selection - Both can be enabled */}
                 <div className="border-t border-gray-200 pt-3 mt-3">
                   <label className="text-xs font-semibold text-gray-700 mb-2 block">
-                    Boost Type
+                    Boost Types (Can select both)
                   </label>
                   <div className="grid grid-cols-2 gap-2">
                     {/* ROI Boost */}
                     <button
                       type="button"
-                      onClick={() => handleBoostTypeChange("roi")}
-                      className={`p-2.5 border-2 rounded-lg transition ${
-                        boostType === "roi" ? "border-green-500 bg-green-100" : "border-gray-200 hover:border-green-300"
-                      }`}
+                      onClick={handleRoiToggle}
+                      className={`p-2.5 border-2 rounded-lg transition ${roiEnabled ? "border-green-500 bg-green-100 ring-2 ring-green-200" : "border-gray-200 hover:border-green-300"
+                        }`}
                     >
-                      <div className="flex items-center justify-center gap-1 mb-2">
-                        <TrendingUp className="w-4 h-4 text-green-600" />
-                        <p className="text-xs font-semibold">ROI Boost</p>
+                      <div className="flex items-center justify-between gap-1 mb-2">
+                        <div className="flex items-center gap-1">
+                          <TrendingUp className="w-4 h-4 text-green-600" />
+                          <p className="text-xs font-semibold">ROI Boost</p>
+                        </div>
+                        <div
+                          className={`w-4 h-4 rounded border-2 flex items-center justify-center ${roiEnabled ? "border-green-500 bg-green-500" : "border-gray-300"
+                            }`}
+                        >
+                          {roiEnabled && <div className="w-2 h-2 bg-white rounded-sm" />}
+                        </div>
                       </div>
-                      {boostType === "roi" && (
+                      {roiEnabled && (
                         <div className="space-y-1.5" onClick={(e) => e.stopPropagation()}>
                           <div className="flex items-center gap-1">
                             <button
@@ -942,16 +971,23 @@ export const CreditLimits = ({
                     {/* Time Reduction */}
                     <button
                       type="button"
-                      onClick={() => handleBoostTypeChange("time")}
-                      className={`p-2.5 border-2 rounded-lg transition ${
-                        boostType === "time" ? "border-blue-500 bg-blue-100" : "border-gray-200 hover:border-blue-300"
-                      }`}
+                      onClick={handleTimeToggle}
+                      className={`p-2.5 border-2 rounded-lg transition ${timeEnabled ? "border-blue-500 bg-blue-100 ring-2 ring-blue-200" : "border-gray-200 hover:border-blue-300"
+                        }`}
                     >
-                      <div className="flex items-center justify-center gap-1 mb-2">
-                        <Clock className="w-4 h-4 text-blue-600" />
-                        <p className="text-xs font-semibold">Time Reduction</p>
+                      <div className="flex items-center justify-between gap-1 mb-2">
+                        <div className="flex items-center gap-1">
+                          <Clock className="w-4 h-4 text-blue-600" />
+                          <p className="text-xs font-semibold">Time Reduction</p>
+                        </div>
+                        <div
+                          className={`w-4 h-4 rounded border-2 flex items-center justify-center ${timeEnabled ? "border-blue-500 bg-blue-500" : "border-gray-300"
+                            }`}
+                        >
+                          {timeEnabled && <div className="w-2 h-2 bg-white rounded-sm" />}
+                        </div>
                       </div>
-                      {boostType === "time" && (
+                      {timeEnabled && (
                         <div className="space-y-1.5" onClick={(e) => e.stopPropagation()}>
                           <div className="flex items-center gap-1">
                             <button
@@ -992,3 +1028,4 @@ export const CreditLimits = ({
     </div>
   );
 };
+

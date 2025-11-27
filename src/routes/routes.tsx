@@ -16,7 +16,7 @@ import UserDetailsPage from "@/pages/users/UserDetsils.tsx";
 import Employees from "@/pages/employee/Employees.tsx";
 import AddEmployee from "@/pages/employee/AddEmployee.tsx";
 import MangeCrypto from "@/pages/cryptos/MangeCrypto.tsx";
-import CryptoManagementForm from "@/pages/cryptos/AddCryptos.tsx";
+import EditCrypto from "@/pages/cryptos/EditCrypto.tsx";
 import Unauthorized from "@/pages/Unauthorized.tsx";
 
 const ForgetPassword = lazy(() => import("../pages/auth/ForgetPassword"))
@@ -113,8 +113,8 @@ const routes: RouteObject[] = [
                 path: PATHS.CRYPTOS,
                 element: <ProtectedRoute path={PATHS.CRYPTOS}><MangeCrypto /></ProtectedRoute>,
             }, {
-                path: `${PATHS.CRYPTOS}/add`,
-                element: <ProtectedRoute path={PATHS.CRYPTOS}><CryptoManagementForm /></ProtectedRoute>,
+                path: `${PATHS.CRYPTOS}/add/:id`,
+                element: <ProtectedRoute path={PATHS.CRYPTOS}><EditCrypto /></ProtectedRoute>,
             }, {
                 path: PATHS.EMPLOYEES,
                 element: <ProtectedRoute path={PATHS.EMPLOYEES}><Employees /></ProtectedRoute>,

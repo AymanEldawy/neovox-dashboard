@@ -37,3 +37,12 @@ export const updatePassword = (data: {
     method: "POST",
     body: JSON.stringify(data),
   });
+
+export const changePassword = (data: {
+  oldPassword: string;
+  newPassword: string;
+}) =>
+  apiFetch(`${API_URLS.BASE_AUTH}/change-password`, {
+    method: "POST",
+    body: JSON.stringify(data),
+  });

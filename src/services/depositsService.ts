@@ -1,8 +1,8 @@
-import {apiFetch} from "./api";
+import { apiFetch } from "./api";
 import API_URLS from "./apiUrlPaths";
 
-export const getAllDeposits = () =>
-    apiFetch(`${API_URLS.BASE_DEPOSITS}`, {
+export const getAllDeposits = (page: number = 1, limit: number = 10) =>
+    apiFetch(`${API_URLS.BASE_DEPOSITS}?page=${page}&limit=${limit}`, {
         method: "GET",
     });
 

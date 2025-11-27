@@ -11,7 +11,7 @@ const Layout = withLoggedIn(() => {
       <Menu withoutContainer setSidebarOpen={setSidebarOpen} hideLinks />
       <div className='flex'>
         <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-        <main className="flex-1 p-4 md:w-[calc(100%-200px)] overflow-y-auto"><Outlet /></main>
+        <main className="flex-1 p-4 md:w-[calc(100%-200px)] overflow-y-auto pt-4"><Outlet /></main>
       </div>
     </>
   )

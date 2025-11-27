@@ -33,7 +33,6 @@ export class InvestmentPlan {
     totalTasks: number;
     taskTime: string;
     dailyTime: string;
-    acceleratedReturn: string;
   };
   actions?: PlanActions;
 
@@ -59,7 +58,6 @@ export class InvestmentPlan {
       totalTasks: 0,
       taskTime: "",
       dailyTime: "",
-      acceleratedReturn: "",
     };
     this.actions = data?.actions ?? undefined;
   }
@@ -80,7 +78,10 @@ export class InvestmentPlan {
       creditPrice: this.creditPrice,
       subscriptionLimit: this.subscriptionLimit,
       requirements: JSON.stringify({
-        ...this.requirements,
+        tasksPerDay: this.requirements.tasksPerDay,
+        totalTasks: this.duration * this.requirements.tasksPerDay, // Auto-calculated
+        taskTime: this.requirements.taskTime,
+        dailyTime: this.requirements.dailyTime,
         isTeam: this.isTeam,
         teamMembersCount: this.teamMembersCount,
       }),
