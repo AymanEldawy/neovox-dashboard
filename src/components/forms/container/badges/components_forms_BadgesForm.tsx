@@ -12,7 +12,6 @@ export const BadgesForm = ({ isUpdate = false }: BadgesFormProps) => {
     : useCreateBadgeForm();
 
   const onSubmit = (data: any) => {
-    console.log(isUpdate ? "Update Badge:" : "Create Badge:", data);
     // Replace with API call, e.g., createBadge(data) or updateBadge(id, data)
   };
 

@@ -18,7 +18,6 @@ export const PlanStatesForm = ({ isUpdate = false }: PlanStatesFormProps) => {
     : useCreatePlanStateForm();
 
   const onSubmit = (data: any) => {
-    console.log(isUpdate ? "Update Plan State:" : "Create Plan State:", data);
     // Replace with API call, e.g., createPlanState(data) or updatePlanState(id, data)
   };
 

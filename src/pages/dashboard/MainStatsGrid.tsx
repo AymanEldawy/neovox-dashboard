@@ -32,7 +32,6 @@ const MainStatsGrid = () => {
         const fetchStats = async () => {
             try {
                 const response = await getStats();
-                console.log(JSON.stringify(response.data,null,2));
                 setStats(response.data);
             } catch (error) {
                 console.error("Failed to fetch stats:", error);

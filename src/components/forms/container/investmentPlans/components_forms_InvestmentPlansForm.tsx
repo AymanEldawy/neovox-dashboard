@@ -71,7 +71,6 @@ const useInvestmentPlanForm = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         const dto = formData.toDto();
-        isEditMode ? console.log(JSON.stringify(dto, null, 2)) : console.log('Create');
 
         const serviceCall = isEditMode ? updateInvestmentPlan(id, dto) : createInvestmentPlan(dto as any);
         serviceCall.then(() => {

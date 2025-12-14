@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getUserById, updateUser } from '@/services/userService';
+import { payoutReferralCommissions } from '@/services/referralsService';
 
 interface Investment {
     id: string;
@@ -84,6 +85,8 @@ const UserDetailsPage: React.FC = () => {
     });
     const [saving, setSaving] = useState(false);
     const [showSuccessDialog, setShowSuccessDialog] = useState(false);
+    const [payoutLoading, setPayoutLoading] = useState(false);
+    const [payoutResult, setPayoutResult] = useState<{ processedAmount: number, count: number } | null>(null);
 
     useEffect(() => {
         if (id) {
@@ -181,6 +184,29 @@ const UserDetailsPage: React.FC = () => {
             } finally {
                 setSaving(false);
             }
+        }
+    };
+
+    const handlePayout = async () => {
+        if (!id) return;
+        try {
+            setPayoutLoading(true);
+            const res = await payoutReferralCommissions(id);
+            // Result is likely res.data or just res depending on api wrapper. Assuming data.
+            // Adjust based on typical apiFetch response. Previously saw res.data in getUserById.
+            const result = res.data || res;
+
+            setPayoutResult(result);
+
+            // Refresh user data to show new balance
+            const userData = await getUserById(id);
+            setUser(userData.data);
+
+            setPayoutLoading(false);
+        } catch (err) {
+            console.error(err);
+            setError('Failed to payout commissions');
+            setPayoutLoading(false);
         }
     };
 
@@ -520,7 +546,28 @@ const UserDetailsPage: React.FC = () => {
 
                         {/* Quick Info */}
                         <div className="bg-white rounded-2xl shadow-lg p-6">
-                            <h3 className="text-xl font-bold text-gray-900 mb-4">Quick Info</h3>
+                            <h3 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h3>
+                            <button
+                                onClick={handlePayout}
+                                disabled={payoutLoading}
+                                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-xl transition flex items-center justify-center gap-2 mb-3 shadow-lg shadow-indigo-200"
+                            >
+                                {payoutLoading ? (
+                                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
+                                ) : (
+                                    <Zap className="w-5 h-5" />
+                                )}
+                                Payout Commissions
+                            </button>
+                            {payoutResult && (
+                                <div className="p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-800 mb-4">
+                                    Paid ${payoutResult.processedAmount?.toFixed(2) ?? 0} for {payoutResult.count ?? 0} referrals.
+                                </div>
+                            )}
+
+                            <div className="border-t pt-4">
+                                <h3 className="text-xl font-bold text-gray-900 mb-4">Quick Info</h3>
+                            </div>
 
                             <div className="space-y-3">
                                 <div className="flex justify-between items-center pb-3 border-b">

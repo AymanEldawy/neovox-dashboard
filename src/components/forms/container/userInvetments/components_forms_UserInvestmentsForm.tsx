@@ -18,7 +18,6 @@ export const UserInvestmentsForm = ({ isUpdate = false }: UserInvestmentsFormPro
     : useCreateUserInvestmentForm();
 
   const onSubmit = (data: any) => {
-    console.log(isUpdate ? "Update User Investment:" : "Create User Investment:", data);
     // Replace with API call, e.g., createUserInvestment(data) or updateUserInvestment(id, data)
   };
 

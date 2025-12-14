@@ -20,7 +20,6 @@ export const UserMissionsForm = ({ isUpdate = false }: UserMissionsFormProps) =>
   });
 
   const onSubmit = (data: any) => {
-    console.log(isUpdate ? "Update User Mission:" : "Create User Mission:", data);
     // Replace with API call, e.g., createUserMission(data) or updateUserMission(id, data)
   };
 

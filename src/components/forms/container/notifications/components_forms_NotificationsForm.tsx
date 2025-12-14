@@ -18,7 +18,6 @@ export const NotificationsForm = ({ isUpdate = false }: NotificationsFormProps) 
     : useCreateNotificationForm();
 
   const onSubmit = (data: any) => {
-    console.log(isUpdate ? "Update Notification:" : "Create Notification:", data);
     // Replace with API call, e.g., createNotification(data) or updateNotification(id, data)
   };
 

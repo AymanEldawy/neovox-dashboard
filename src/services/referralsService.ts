@@ -33,3 +33,18 @@ export const deleteReferral = (id: string) =>
   apiFetch(`${API_URLS.BASE_REFERRALS}/${id}`, {
     method: "DELETE",
   });
+
+export const payoutReferralCommissions = (userId: string) =>
+  apiFetch(`${API_URLS.BASE_REFERRALS}/payout/${userId}`, {
+    method: "POST",
+  });
+
+export const getUnpaidReferralStats = () =>
+  apiFetch(`${API_URLS.BASE_REFERRALS}/unpaid-stats`, {
+    method: "GET",
+  });
+
+export const payoutAllReferralCommissions = () =>
+  apiFetch(`${API_URLS.BASE_REFERRALS}/payout-all`, {
+    method: "POST",
+  });

@@ -17,7 +17,6 @@ export const DailyTasksForm = ({ isUpdate = false }: DailyTasksFormProps) => {
     : useCreateDailyTaskForm();
 
   const onSubmit = (data: any) => {
-    console.log(isUpdate ? "Update Daily Task:" : "Create Daily Task:", data);
     // Replace with API call, e.g., createDailyTask(data) or updateDailyTask(id, data)
   };
 

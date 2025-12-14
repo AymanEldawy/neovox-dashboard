@@ -8,6 +8,7 @@ import { cryptoColumns } from '@/helpers/columns/cryptoColumns.tsx';
 const CryptoManagement: React.FC = () => {
     const navigate = useNavigate();
 
+    // @ts-ignore
     return (
         <PaperLayout
             name="Crypto"

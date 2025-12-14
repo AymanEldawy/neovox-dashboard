@@ -9,6 +9,9 @@ export interface CreateMissionDto {
 export interface UpdateMissionDto {
   title?: string;
   description?: string;
-  reward?: number;
+  rewards?: { points: number };
   difficulty?: string;
+  type?: string;
+  requirements?: any;
+  isActive?: boolean;
 }

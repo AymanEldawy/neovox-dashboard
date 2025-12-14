@@ -33,3 +33,9 @@ export const deleteUserMission = (id: string) =>
   apiFetch(`${API_URLS.BASE_USER_MISSIONS}/${id}`, {
     method: "DELETE",
   });
+
+// Add missions for all active subscriptions
+export const addMissionsForUser = () =>
+  apiFetch(`${API_URLS.BASE_USER_MISSIONS}/add-mission`, {
+    method: "POST",
+  }); 

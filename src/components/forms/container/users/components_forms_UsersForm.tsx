@@ -17,7 +17,6 @@ export const UsersForm = ({ isUpdate = false }: UsersFormProps) => {
     : useCreateUserForm();
 
   const onSubmit = (data: any) => {
-    console.log(isUpdate ? "Update User:" : "Create User:", data);
     // Replace with API call, e.g., createUser(data) or updateUser(id, data)
   };
 

@@ -43,7 +43,6 @@ const Btn = (
     <button
       onClick={(e) => {
         if (!onClick) {
-          console.log('No onClick function provided');
           return;
         }
         onClick(e);

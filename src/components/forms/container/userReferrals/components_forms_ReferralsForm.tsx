@@ -18,7 +18,6 @@ export const ReferralsForm = ({ isUpdate = false }: ReferralsFormProps) => {
     : useCreateReferralForm();
 
   const onSubmit = (data: any) => {
-    console.log(isUpdate ? "Update Referral:" : "Create Referral:", data);
     // Replace with API call, e.g., createReferral(data) or updateReferral(id, data)
   };
 

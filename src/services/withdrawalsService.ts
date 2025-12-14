@@ -25,11 +25,13 @@ export const updateWithdrawals = (id: string, data) =>
     });
 export const approveWithdrawal = (id: string) =>
     apiFetch(`${API_URLS.BASE_WITHDRAWALS}/approveWithdrawal/${id}`, {
-        method: "PATCH"
+        method: "PATCH",
+        body: JSON.stringify({})
     });
 export const rejectWithdrawal = (id: string) =>
     apiFetch(`${API_URLS.BASE_WITHDRAWALS}/rejectWithdrawal/${id}`, {
-        method: "PATCH"
+        method: "PATCH",
+        body: JSON.stringify({})
     });
 
 export const deleteWithdrawals = (id: string) =>

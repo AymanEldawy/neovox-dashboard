@@ -25,11 +25,13 @@ export const updateDeposit = (id: string, data) =>
     });
 export const approveDeposit = (id: string) =>
     apiFetch(`${API_URLS.BASE_DEPOSITS}/approveDeposit/${id}`, {
-        method: "PATCH"
+        method: "PATCH",
+        body: JSON.stringify({})
     });
 export const rejectDeposit = (id: string) =>
     apiFetch(`${API_URLS.BASE_DEPOSITS}/rejectDeposit/${id}`, {
-        method: "PATCH"
+        method: "PATCH",
+        body: JSON.stringify({})
     });
 export const deleteDeposit = (id: string) =>
     apiFetch(`${API_URLS.BASE_DEPOSITS}/${id}`, {

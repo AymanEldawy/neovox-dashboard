@@ -1,6 +1,6 @@
-import {DashboardIcon, FinancialIcon, InvestmentIcon, MissionIcon, SettingsIcon, TeamIcon,} from "@/components/icons";
-import {UsersIcon} from "lucide-react";
-import type {JSX} from "react";
+import { DashboardIcon, FinancialIcon, InvestmentIcon, MissionIcon, SettingsIcon, TeamIcon, } from "@/components/icons";
+import { UsersIcon } from "lucide-react";
+import type { JSX } from "react";
 import PATHS from "./paths";
 import PERMISSIONS from "./permissions";
 import ROLES from "@/data/roles.ts";
@@ -27,40 +27,40 @@ const sideMenuItems: SideMenuItem[] = [
         name: "dashboard",
         path: PATHS.DASHBOARD as string,
         permissions: PERMISSIONS[ROLES.ADMIN],
-        icon: <DashboardIcon className="h-6 w-6"/>,
+        icon: <DashboardIcon className="h-6 w-6" />,
     },
     {
         name: "users",
         path: PATHS.USERS,
         permissions: PERMISSIONS[PATHS.USERS],
-        icon: <UsersIcon className="h-6 w-6"/>,
+        icon: <UsersIcon className="h-6 w-6" />,
     },
     {
         name: "teams",
         path: PATHS.TEAMS,
         permissions: PERMISSIONS[PATHS.TEAMS],
-        icon: <TeamIcon className="h-6 w-6"/>,
+        icon: <TeamIcon className="h-6 w-6" />,
     },
     {
         name: "missions",
         path: PATHS.MISSIONS,
         permissions: PERMISSIONS[PATHS.MISSIONS],
-        icon: <MissionIcon className="h-6 w-6"/>,
+        icon: <MissionIcon className="h-6 w-6" />,
     },
     {
         name: "investmentPlans",
         path: PATHS.INVESTMENT_PLANS,
         permissions: PERMISSIONS[PATHS.INVESTMENT_PLANS],
-        icon: <InvestmentIcon className="h-6 w-6"/>,
+        icon: <InvestmentIcon className="h-6 w-6" />,
 
     },
     {
         name: "financials",
         permissions: PERMISSIONS[PATHS.DEPOSITS],
-        icon: <FinancialIcon className="h-6 w-6"/>,
+        icon: <FinancialIcon className="h-6 w-6" />,
         children: [
-            {name: 'deposits', path: PATHS.DEPOSITS, permissions: PERMISSIONS[PATHS.DEPOSITS]},
-            {name: 'withdrawals', path: PATHS.WITHDRAWALS, permissions: PERMISSIONS[PATHS.WITHDRAWALS]},
+            { name: 'deposits', path: PATHS.DEPOSITS, permissions: PERMISSIONS[PATHS.DEPOSITS] },
+            { name: 'withdrawals', path: PATHS.WITHDRAWALS, permissions: PERMISSIONS[PATHS.WITHDRAWALS] },
             // { name: 'transactions', path: PATHS.TRANSACTIONS, permissions: PERMISSIONS[PATHS.TRANSACTIONS] },
             // { name: 'creditTransactions', path: PATHS.CREDIT_TRANSACTIONS, permissions: PERMISSIONS[PATHS.CREDIT_TRANSACTIONS] },
             // { name: 'ledger', path: PATHS.LEDGER, permissions: PERMISSIONS[PATHS.LEDGER] },
@@ -70,13 +70,13 @@ const sideMenuItems: SideMenuItem[] = [
         name: "cryptos",
         path: PATHS.CRYPTOS,
         permissions: PERMISSIONS[PATHS.CRYPTOS],
-        icon: <TeamIcon className="h-6 w-6"/>,
+        icon: <TeamIcon className="h-6 w-6" />,
     },
     {
         name: "employees",
         path: PATHS.EMPLOYEES,
         permissions: PERMISSIONS[PATHS.EMPLOYEES],
-        icon: <TeamIcon className="h-6 w-6"/>,
+        icon: <TeamIcon className="h-6 w-6" />,
     }
     ,
     // {
@@ -111,7 +111,7 @@ const sideMenuItems: SideMenuItem[] = [
         name: "settings",
         path: PATHS.SETTINGS as string,
         permissions: PERMISSIONS[PATHS.SETTINGS],
-        icon: <SettingsIcon className="h-6 w-6"/>,
+        icon: <SettingsIcon className="h-6 w-6" />,
     },
 ];
 

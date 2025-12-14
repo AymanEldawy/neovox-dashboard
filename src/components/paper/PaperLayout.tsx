@@ -23,22 +23,24 @@ type PaperLayoutProps = {
     enableViewButton?: boolean;
     enableEditButton?: boolean;
     enableDeleteButton?: boolean;
+    onEdit?: (row: any) => void;
 };
 
 const PaperLayout = ({
-                         name,
-                         queryFn,
-                         queryKey,
-                         columns,
-                         paperHeaderProps,
-                         showAddButton = true,
-                         enableRowActions = true,
-                         customActions,
-                         handleDeleteSelected,
-                         enableViewButton = true,
-                         enableEditButton = true,
-                         enableDeleteButton = true,
-                     }: PaperLayoutProps) => {
+    name,
+    queryFn,
+    queryKey,
+    columns,
+    paperHeaderProps,
+    showAddButton = true,
+    enableRowActions = true,
+    customActions,
+    handleDeleteSelected,
+    enableViewButton = true,
+    enableEditButton = true,
+    enableDeleteButton = true,
+    onEdit,
+}: PaperLayoutProps) => {
     const navigate = useNavigate();
     const pageSearchParam = +useCustomSearchParams("page") || 1;
     const limitSearchParam = +useCustomSearchParams("limit") || 10;
@@ -53,7 +55,6 @@ const PaperLayout = ({
             try {
                 const response = await queryFn(pageSearchParam, limitSearchParam);
 
-                console.log("Backend Response:", response); // للتأكد من شكل الـ response
 
                 // التعامل مع الـ response من الباك اند
                 // الشكل المتوقع: { data: [...], meta: { total, page, limit } }
@@ -109,7 +110,13 @@ const PaperLayout = ({
                                 )}
                                 {enableEditButton && (
                                     <button
-                                        onClick={() => navigate(`/${queryKey}/add/${row.original.id}`)}
+                                        onClick={() => {
+                                            if (onEdit) {
+                                                onEdit(row.original);
+                                            } else {
+                                                navigate(`/${queryKey}/add/${row.original.id}`);
+                                            }
+                                        }}
                                         className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition"
                                         title="Edit"
                                     >
